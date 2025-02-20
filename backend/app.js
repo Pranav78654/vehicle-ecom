@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
 const models = require('./models');
+
 // Import routes
 const countryRoutes = require('./routes/countryRoutes');
+const stateRoutes = require('./routes/stateRoutes');
+
 const categoryRoutes = require('./routes/categorgyRoutes');
 const userRoutes = require('./routes/userRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
@@ -29,6 +32,11 @@ sequelize.sync({ alter: true })
 app.get('/', (req, res) => {
     res.send('Server is running!');
 });
+
+// Using API routes
+app.use('/api/countries', countryRoutes); // Country routes
+app.use('/api', stateRoutes);
+
 
 // Using the countryRoutes for API
 app.use('/api', countryRoutes);
