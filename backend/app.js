@@ -36,10 +36,6 @@ app.get('/', (req, res) => {
 // Using API routes
 app.use('/api/countries', countryRoutes); // Country routes
 app.use('/api', stateRoutes);
-
-
-// Using the countryRoutes for API
-app.use('/api', countryRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/user', userRoutes);
