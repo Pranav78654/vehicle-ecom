@@ -8,6 +8,8 @@ const categoryRoutes = require('./routes/categorgyRoutes');
 const userRoutes = require('./routes/userRoutes');4
 const rolesRoutes = require('./routes/rolesRoutes');
 
+const departmentRoutes = require('./routes/departmentRoutes');
+
 const app = express();
 
 // Middleware
@@ -31,6 +33,7 @@ app.get('/', (req, res) => {
 
 // Using the countryRoutes for API
 app.use('/api', countryRoutes);
+app.use('/api/departments', departmentRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api', rolesRoutes);
