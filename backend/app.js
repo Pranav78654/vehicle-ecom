@@ -5,9 +5,8 @@ const models = require('./models');
 // Import routes
 const countryRoutes = require('./routes/countryRoutes');
 const categoryRoutes = require('./routes/categorgyRoutes');
-const userRoutes = require('./routes/userRoutes');4
+const userRoutes = require('./routes/userRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
-
 const departmentRoutes = require('./routes/departmentRoutes');
 
 const app = express();
