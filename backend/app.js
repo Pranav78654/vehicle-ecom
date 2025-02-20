@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
 const models = require('./models');
+
 // Import routes
 const countryRoutes = require('./routes/countryRoutes');
+const stateRoutes = require('./routes/stateRoutes');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -24,8 +27,10 @@ app.get('/', (req, res) => {
     res.send('Server is running!');
 });
 
-// Using the countryRoutes for API
-app.use('/api', countryRoutes);
+// Using API routes
+app.use('/api/countries', countryRoutes); // Country routes
+app.use('/api', stateRoutes);
+
 
 // Set up the server
 const PORT = process.env.PORT || 5000;
