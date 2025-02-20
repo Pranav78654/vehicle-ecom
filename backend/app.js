@@ -4,8 +4,11 @@ const sequelize = require('./config/database');
 const models = require('./models');
 // Import routes
 const countryRoutes = require('./routes/countryRoutes');
+const departmentRoutes = require('./routes/departmentRoutes');
+
 const app = express();
 
+// Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -26,7 +29,7 @@ app.get('/', (req, res) => {
 
 // Using the countryRoutes for API
 app.use('/api', countryRoutes);
-
+app.use('/api/departments', departmentRoutes);
 // Set up the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
