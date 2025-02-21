@@ -6,7 +6,7 @@ const models = require('./models');
 // Import routes
 const countryRoutes = require('./routes/countryRoutes');
 const stateRoutes = require('./routes/stateRoutes');
-
+const designationRoutes = require('./routes/designationRoutes');
 const categoryRoutes = require('./routes/categorgyRoutes');
 const userRoutes = require('./routes/userRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
@@ -40,6 +40,7 @@ app.use('/api/departments', departmentRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api', rolesRoutes);
+app.use('/designations', designationRoutes);
 // Set up the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

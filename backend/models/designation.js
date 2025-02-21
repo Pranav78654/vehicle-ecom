@@ -5,7 +5,10 @@ module.exports = (sequelize, DataTypes) => {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       title: { type: DataTypes.STRING, allowNull: false },
     },
-    {}
+    {
+      tableName: "designation", // Explicitly map to 'department' table in MySQL
+      timestamps: false, // Disable automatic timestamps
+    }
   );
   return Designation;
 };
