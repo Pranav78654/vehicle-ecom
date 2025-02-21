@@ -11,6 +11,7 @@ const categoryRoutes = require('./routes/categorgyRoutes');
 const userRoutes = require('./routes/userRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
+const permissionMasterRoutes = require('./routes/permissionMasterRoutes');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/api/category', categoryRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api', rolesRoutes);
 app.use('/designations', designationRoutes);
+app.use('/permission_masters', permissionMasterRoutes);
 // Set up the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

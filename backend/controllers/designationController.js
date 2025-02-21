@@ -1,6 +1,4 @@
-// designationController.js
-
-const db = require('../models'); // Assuming your sequelize instance is in models/index.js
+const db = require('../models');
 const Designation = db.Designation;
 
 // Create a new designation
