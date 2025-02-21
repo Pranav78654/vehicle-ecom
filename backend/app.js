@@ -11,6 +11,7 @@ const categoryRoutes = require('./routes/categorgyRoutes');
 const userRoutes = require('./routes/userRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
+const regionRoutes = require('./routes/regionRoutes');
 
 const app = express();
 
@@ -30,16 +31,17 @@ sequelize.sync({ alter: true })
 
 // Example test route
 app.get('/', (req, res) => {
-    res.send('Server is running!');
+  res.send('Server is running!');
 });
 
 // Using API routes
-app.use('/api/countries', countryRoutes); // Country routes
+app.use('/api/countries', countryRoutes);
 app.use('/api', stateRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api', rolesRoutes);
+app.use('/api', regionRoutes);
 // Set up the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
