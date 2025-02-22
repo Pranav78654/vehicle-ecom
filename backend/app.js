@@ -13,6 +13,8 @@ const rolesRoutes = require('./routes/rolesRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const regionRoutes = require('./routes/regionRoutes');
 const permissionMasterRoutes = require('./routes/permissionMasterRoutes');
+const productRoutes = require('./routes/productRoutes');
+const productImageRoutes = require('./routes/productImageRoutes');
 
 const app = express();
 
@@ -45,6 +47,9 @@ app.use('/api', rolesRoutes);
 app.use('/api', regionRoutes);
 app.use('/designations', designationRoutes);
 app.use('/permission_masters', permissionMasterRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/product-images', productImageRoutes);
+
 // Set up the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
