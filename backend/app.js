@@ -13,9 +13,14 @@ const rolesRoutes = require('./routes/rolesRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const regionRoutes = require('./routes/regionRoutes');
 const permissionMasterRoutes = require('./routes/permissionMasterRoutes');
+
 const productRoutes = require('./routes/productRoutes');
 const productImageRoutes = require('./routes/productImageRoutes');
 const productVariantRoutes = require('./routes/productVariantRoutes');
+const brandRoutes = require('./routes/brandRoutes');
+
+
+
 const app = express();
 
 // Middleware
@@ -50,6 +55,8 @@ app.use('/permission_masters', permissionMasterRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/product-images', productImageRoutes);
 app.use('/api/product-variants', productVariantRoutes);
+app.use('/api', brandRoutes);
+
 // Set up the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
