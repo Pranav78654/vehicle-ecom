@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Menu } from "@headlessui/react";
 import carimage from "../assets/carimage.jpg";
 
@@ -7,6 +7,11 @@ function classNames(...classes) {
 }
 
 const VehicleSelection = () => {
+  // State for selected dropdown values
+  const [selectedBrand, setSelectedBrand] = useState("Select Vehicle Brand");
+  const [selectedModel, setSelectedModel] = useState("Select Model");
+  const [selectedYear, setSelectedYear] = useState("Select Year");
+
   return (
     <div className="w-full">
       <div className="relative h-[400px] rounded-lg overflow-hidden">
@@ -26,152 +31,87 @@ const VehicleSelection = () => {
             
             {/* Vehicle Brand Dropdown */}
             <Menu as="div" className="relative">
-              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md">
-                Select Vehicle Brand
+              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md w-44">
+                {selectedBrand}
               </Menu.Button>
               <Menu.Items className="absolute z-10 mt-2 w-44 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      Toyota
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      Honda
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      Ford
-                    </a>
-                  )}
-                </Menu.Item>
+                {["Toyota", "Honda", "Ford"].map((brand) => (
+                  <Menu.Item key={brand}>
+                    {({ active }) => (
+                      <button
+                        onClick={() => setSelectedBrand(brand)}
+                        className={classNames(
+                          active ? "bg-gray-100" : "",
+                          "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                        )}
+                      >
+                        {brand}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
               </Menu.Items>
             </Menu>
 
             {/* Model Dropdown */}
             <Menu as="div" className="relative">
-              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md">
-                Select Model
+              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md w-44">
+                {selectedModel}
               </Menu.Button>
-              <Menu.Items className="absolute z-10 mt-2 w-32 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      Model A
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      Model B
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      Model C
-                    </a>
-                  )}
-                </Menu.Item>
+              <Menu.Items className="absolute z-10 mt-2 w-44 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                {["Model A", "Model B", "Model C"].map((model) => (
+                  <Menu.Item key={model}>
+                    {({ active }) => (
+                      <button
+                        onClick={() => setSelectedModel(model)}
+                        className={classNames(
+                          active ? "bg-gray-100" : "",
+                          "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                        )}
+                      >
+                        {model}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
               </Menu.Items>
             </Menu>
 
             {/* Year Dropdown */}
             <Menu as="div" className="relative">
-              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md">
-                Select Year
+              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md w-44">
+                {selectedYear}
               </Menu.Button>
-              <Menu.Items className="absolute z-10 mt-2 w-28 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      2024
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      2023
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100" : "",
-                        "block px-4 py-2 text-sm text-gray-700"
-                      )}
-                    >
-                      2022
-                    </a>
-                  )}
-                </Menu.Item>
+              <Menu.Items className="absolute z-10 mt-2 w-44 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                {["2024", "2023", "2022"].map((year) => (
+                  <Menu.Item key={year}>
+                    {({ active }) => (
+                      <button
+                        onClick={() => setSelectedYear(year)}
+                        className={classNames(
+                          active ? "bg-gray-100" : "",
+                          "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                        )}
+                      >
+                        {year}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
               </Menu.Items>
             </Menu>
 
             <button className="bg-red-600 text-white py-2 px-6 rounded-md">
               SEARCH
             </button>
-            <button className="bg-blue-600 text-white py-2 px-6 rounded-md">
+            <button 
+              className="bg-blue-600 text-white py-2 px-6 rounded-md"
+              onClick={() => {
+                setSelectedBrand("Select Vehicle Brand");
+                setSelectedModel("Select Model");
+                setSelectedYear("Select Year");
+              }}
+            >
               RESET
             </button>
           </div>
