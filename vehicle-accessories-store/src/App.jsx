@@ -5,12 +5,13 @@ import './App.css'
 import Card from './components/card'
 import LowerNavbar from './components/LowerNavbar'
 import Signin from './components/Signin'
-
+import VehicleSelection from './components/VehicleSelection'
 export default function App() {
   return (
     <>
-    <Navbar/>
+    {/* <Navbar/> */}
     <LowerNavbar/>
+    <VehicleSelection/>
     <Card/>
     {/* <Signin/> */}
     
