@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false 
     }
   }, {
-    tableName: 'category', // Explicitly specify the existing table name 'category'
-    timestamps: false // If the table does not have `createdAt` and `updatedAt` columns
+    tableName: 'category',
+    timestamps: false
   });
 
   return Category;
