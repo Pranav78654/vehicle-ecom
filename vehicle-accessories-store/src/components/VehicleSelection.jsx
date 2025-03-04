@@ -1,0 +1,124 @@
+import React, { useState } from "react";
+import { Menu } from "@headlessui/react";
+import carimage from "../assets/carimage.jpg";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+const VehicleSelection = () => {
+  // State for selected dropdown values
+  const [selectedBrand, setSelectedBrand] = useState("Select Vehicle Brand");
+  const [selectedModel, setSelectedModel] = useState("Select Model");
+  const [selectedYear, setSelectedYear] = useState("Select Year");
+
+  return (
+    <div className="w-full">
+      <div className="relative h-[400px] rounded-lg overflow-hidden">
+        <img
+          alt="A red car on a road with mountains in the background"
+          className="absolute inset-0 w-full h-full object-cover blur-[2.5px]"
+          src={carimage}
+        />
+        <div className="absolute inset-0 bg-opacity-75 flex flex-col items-center justify-center text-center p-4">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            SELECT YOUR VEHICLE
+          </h1>
+          <p className="text-lg md:text-xl mb-6 text-white">
+            Over 100,000 Car and Bike Accessories
+          </p>
+          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+            
+            {/* Vehicle Brand Dropdown */}
+            <Menu as="div" className="relative">
+              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md w-44">
+                {selectedBrand}
+              </Menu.Button>
+              <Menu.Items className="absolute z-10 mt-2 w-44 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                {["Toyota", "Honda", "Ford"].map((brand) => (
+                  <Menu.Item key={brand}>
+                    {({ active }) => (
+                      <button
+                        onClick={() => setSelectedBrand(brand)}
+                        className={classNames(
+                          active ? "bg-gray-100" : "",
+                          "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                        )}
+                      >
+                        {brand}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
+              </Menu.Items>
+            </Menu>
+
+            {/* Model Dropdown */}
+            <Menu as="div" className="relative">
+              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md w-44">
+                {selectedModel}
+              </Menu.Button>
+              <Menu.Items className="absolute z-10 mt-2 w-44 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                {["Model A", "Model B", "Model C"].map((model) => (
+                  <Menu.Item key={model}>
+                    {({ active }) => (
+                      <button
+                        onClick={() => setSelectedModel(model)}
+                        className={classNames(
+                          active ? "bg-gray-100" : "",
+                          "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                        )}
+                      >
+                        {model}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
+              </Menu.Items>
+            </Menu>
+
+            {/* Year Dropdown */}
+            <Menu as="div" className="relative">
+              <Menu.Button className="bg-white text-gray-900 py-2 px-4 rounded-md w-44">
+                {selectedYear}
+              </Menu.Button>
+              <Menu.Items className="absolute z-10 mt-2 w-44 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                {["2024", "2023", "2022"].map((year) => (
+                  <Menu.Item key={year}>
+                    {({ active }) => (
+                      <button
+                        onClick={() => setSelectedYear(year)}
+                        className={classNames(
+                          active ? "bg-gray-100" : "",
+                          "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                        )}
+                      >
+                        {year}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
+              </Menu.Items>
+            </Menu>
+
+            <button className="bg-red-600 text-white py-2 px-6 rounded-md">
+              SEARCH
+            </button>
+            <button 
+              className="bg-blue-600 text-white py-2 px-6 rounded-md"
+              onClick={() => {
+                setSelectedBrand("Select Vehicle Brand");
+                setSelectedModel("Select Model");
+                setSelectedYear("Select Year");
+              }}
+            >
+              RESET
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default VehicleSelection;
