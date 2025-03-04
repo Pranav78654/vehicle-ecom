@@ -1,0 +1,6 @@
+{
+  "username": "Divesh Gupta",
+  "email": "diveshgupta@004",
+  "password": "Divesh",
+  "role_id": 1
+}
