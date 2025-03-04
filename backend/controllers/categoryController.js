@@ -3,7 +3,7 @@ const { Category } = require('../models');
 // Add Multiple Categories
 exports.addCategories = async (req, res) => {
   try {
-    const { categories } = req.body; // Expecting an array of category names
+    const { categories } = req.body;
     if (!Array.isArray(categories) || categories.length === 0) {
       return res.status(400).json({ error: 'Invalid input, expected an array of categories' });
     }
