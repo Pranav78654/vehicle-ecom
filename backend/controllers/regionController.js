@@ -24,7 +24,7 @@ const getRegionById = async (req, res) => {
   }
 };
 
-// Create a new region (supports single & multiple insert)
+// Create a new region
 const createRegion = async (req, res) => {
   try {
     const { regions } = req.body;

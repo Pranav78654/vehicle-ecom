@@ -65,7 +65,7 @@ exports.deleteDesignation = async (req, res) => {
       return res.status(404).json({ error: 'Designation not found' });
     }
     await designation.destroy();
-    res.status(204).send(); // No content response
+    res.status(204).send();
   } catch (error) {
     console.error('Error deleting designation:', error);
     res.status(500).json({ error: 'Failed to delete designation' });

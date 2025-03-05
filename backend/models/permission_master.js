@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       permission_name: { type: DataTypes.STRING, allowNull: false },
     },
     {
-      tableName: "permission_master", // Explicitly map to 'department' table in MySQL
-      timestamps: false, // Disable automatic timestamps
+      tableName: "permission_master", 
+      timestamps: false, 
     }
   );
   return PermissionMaster;

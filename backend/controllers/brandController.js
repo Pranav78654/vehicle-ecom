@@ -1,4 +1,4 @@
-const { Brand } = require('../models'); // Import the Brand model
+const { Brand } = require('../models');
 
 // Create a new brand
 exports.createBrand = async (req, res) => {

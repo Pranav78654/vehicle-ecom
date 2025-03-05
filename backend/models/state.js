@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     name: { type: DataTypes.STRING, allowNull: false },
     country_id: { type: DataTypes.INTEGER, allowNull: false }
   }, {
-    tableName: 'state', // Explicit table name
-    timestamps: false // Disable createdAt/updatedAt if not needed
+    tableName: 'state',
+    timestamps: false
   });
 
   State.associate = function(models) {

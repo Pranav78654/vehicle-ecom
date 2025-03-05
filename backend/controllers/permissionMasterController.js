@@ -65,7 +65,7 @@ exports.deletePermission = async (req, res) => {
       return res.status(404).json({ error: 'Permission not found' });
     }
     await permission.destroy();
-    res.status(204).send(); // No content response
+    res.status(204).send();
   } catch (error) {
     console.error('Error deleting permission:', error);
     res.status(500).json({ error: 'Failed to delete permission' });

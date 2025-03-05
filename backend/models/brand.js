@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true 
       }
     }, {
-      tableName: 'brand', // Explicitly specify the existing table name 'brand'
-      timestamps: false // If the table does not have `createdAt` and `updatedAt` columns
+      tableName: 'brand',
+      timestamps: false
     });
   
     return Brand;

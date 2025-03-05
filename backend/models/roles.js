@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       role_name: { type: DataTypes.STRING, allowNull: false }
   }, {
-      tableName: 'roles', // Explicitly specify the table name as 'roles'
-      timestamps: false // Disabling createdAt & updatedAt columns
+      tableName: 'roles', 
+      timestamps: false 
   });
 
   Roles.associate = function(models) {

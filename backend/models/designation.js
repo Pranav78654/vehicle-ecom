@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       title: { type: DataTypes.STRING, allowNull: false },
     },
     {
-      tableName: "designation", // Explicitly map to 'department' table in MySQL
-      timestamps: false, // Disable automatic timestamps
+      tableName: "designation",
+      timestamps: false,
     }
   );
   return Designation;

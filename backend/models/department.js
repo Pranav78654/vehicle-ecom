@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "department", // Explicitly map to 'department' table in MySQL
-      timestamps: false, // Disable automatic timestamps
+      tableName: "department",
+      timestamps: false, 
     }
   );
 

@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     password: { type: DataTypes.STRING, allowNull: false },
     role_id: { type: DataTypes.INTEGER }
   }, {
-    tableName: 'user', // Explicitly setting table name
-    timestamps: false, // Disabling createdAt & updatedAt columns
+    tableName: 'user',
+    timestamps: false,
     hooks: {
       beforeCreate: async (user) => {
         user.password = await bcrypt.hash(user.password, 10);

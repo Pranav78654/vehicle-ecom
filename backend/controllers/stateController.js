@@ -24,10 +24,10 @@ const getStateById = async (req, res) => {
   }
 };
 
-// Create a new state (supports single & multiple insert)
+// Create a new state
 const createState = async (req, res) => {
   try {
-    const { states } = req.body; // Expecting an array of states [{ name: "X", country_id: Y }]
+    const { states } = req.body;
     
     if (!Array.isArray(states) || states.length === 0) {
       return res.status(400).json({ message: "Provide an array of states" });

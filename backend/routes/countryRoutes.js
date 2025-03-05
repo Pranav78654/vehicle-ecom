@@ -1,6 +1,5 @@
-// routes/countryRoutes.js
 const express = require('express');
-const countryController = require('../controllers/countryController'); // Import the country controller
+const countryController = require('../controllers/countryController'); 
 const router = express.Router();
 
 // Route to add new countries

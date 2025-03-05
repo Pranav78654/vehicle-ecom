@@ -1,4 +1,3 @@
-// controllers/countryController.js
 const { Country } = require('../models');
 
 // Controller to add countries
@@ -12,7 +11,7 @@ exports.addCountries = async (req, res) => {
 
     // Bulk create countries
     const newCountries = await Country.bulkCreate(countries);
-    res.status(201).json(newCountries); // Return the newly created countries
+    res.status(201).json(newCountries);
   } catch (error) {
     res.status(500).json({ message: 'Error adding countries', error });
   }
@@ -21,8 +20,8 @@ exports.addCountries = async (req, res) => {
 // Controller to get all countries
 exports.getCountries = async (req, res) => {
   try {
-    const countries = await Country.findAll(); // Fetch all countries
-    res.status(200).json(countries); // Return the list of countries
+    const countries = await Country.findAll();
+    res.status(200).json(countries); 
   } catch (error) {
     res.status(500).json({ message: 'Error fetching countries', error });
   }

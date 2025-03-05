@@ -10,8 +10,7 @@ exports.register = async (req, res) => {
       if (!username || !email || !password || !role_id) {
         return res.status(400).json({ error: 'All fields are required' });
       }
-  
-      // Check if user already exists
+
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
         return res.status(400).json({ error: 'Email already registered' });
@@ -32,15 +31,13 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user
+ 
     const user = await User.findOne({ where: { email } });
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
 
-    // Generate JWT token
     const token = generateToken(user);
 
     res.status(200).json({ message: 'Login successful', token });
