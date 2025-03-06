@@ -17,7 +17,7 @@ const LowerNavbar = () => {
   };
 
   const menuItems = {
-    interior: [
+    "Internal Accessories": [
       "Seat Covers",
       "Steering Wheel Covers",
       "Dashboard Covers",
@@ -27,7 +27,7 @@ const LowerNavbar = () => {
       "Interior Lighting",
       "Mobile Holders & Chargers",
     ],
-    exterior: [
+    "External Accessories": [
       "Car Covers",
       "Body Covers for Two-Wheelers",
       "Bumpers & Bumper Guards",
@@ -36,7 +36,7 @@ const LowerNavbar = () => {
       "Door Visors & Wind Deflectors",
       "Side Foot Steps",
     ],
-    utility: [
+    "Utility Accessories": [
       "Luggage Racks",
       "Tool Kits",
       "Car Organizers & Storage Solutions",
@@ -44,7 +44,7 @@ const LowerNavbar = () => {
       "Cup Holders",
       "Multipurpose Hooks",
     ],
-    spare: [
+    "Spare Parts": [
       "Brake Pads & Discs",
       "Clutch & Gear Components",
       "Engine Oils & Lubricants",
@@ -52,7 +52,7 @@ const LowerNavbar = () => {
       "Wipers & Blades",
       "Suspension & Steering Parts",
     ],
-    security: [
+    "Security and Safety": [
       "Car Alarms & Immobilizers",
       "GPS Trackers",
       "Rear & Front Parking Sensors",
@@ -62,7 +62,7 @@ const LowerNavbar = () => {
       "First Aid Kits",
       "Anti-Theft Wheel Locks",
     ],
-    cleaning: [
+    "Cleaning and Care": [
       "Car Shampoo & Wax",
       "Microfiber Towels",
       "Dashboard & Leather Polish",
@@ -71,7 +71,7 @@ const LowerNavbar = () => {
       "Tyre Cleaners & Dressers",
       "Rust Removers",
     ],
-    lights: [
+    "Lights and Electronic": [
       "LED Headlights",
       "Fog Lamps",
       "Tail Lights",
@@ -79,7 +79,7 @@ const LowerNavbar = () => {
       "Underbody Lighting",
       "Number Plate Lights",
     ],
-    twoWheeler: [
+    "Two Wheeler Accessories": [
       "Bike Covers",
       "Handlebar Grips",
       "Riding Gloves",
@@ -91,14 +91,14 @@ const LowerNavbar = () => {
 
   return (
     <nav className="bg-gray-800 py-5 shadow-lg relative z-50">
-      <ul className="flex justify-center space-x-10 text-gray-200 text-base font-semibold uppercase relative">
+      <ul className="flex justify-center space-x-10 px-10 text-gray-200 text-sm font-semibold uppercase relative">
         {Object.keys(menuItems).map((menu, index) => (
           <li key={index} className="relative">
             <button
               onClick={() => handleClick(menu)}
-              className="hover:text-gray-400 flex items-center"
+              className="hover:text-gray-400 flex items-center gap-1"
             >
-              {menu.replace(menu[0], menu[0].toUpperCase()).replace("_", " ")} ⮟
+              {menu} ⮟
             </button>
             {openDropdown === menu && (
               <ul
