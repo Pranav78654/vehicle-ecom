@@ -62,6 +62,31 @@ const LowerNavbar = () => {
       "First Aid Kits",
       "Anti-Theft Wheel Locks",
     ],
+    cleaning: [
+      "Car Shampoo & Wax",
+      "Microfiber Towels",
+      "Dashboard & Leather Polish",
+      "Glass Cleaners",
+      "Car Vacuum Cleaners",
+      "Tyre Cleaners & Dressers",
+      "Rust Removers",
+    ],
+    lights: [
+      "LED Headlights",
+      "Fog Lamps",
+      "Tail Lights",
+      "Interior LED Strips",
+      "Underbody Lighting",
+      "Number Plate Lights",
+    ],
+    twoWheeler: [
+      "Bike Covers",
+      "Handlebar Grips",
+      "Riding Gloves",
+      "Side Boxes & Saddlebags",
+      "Helmet Locks",
+      "LED Indicator Lights",
+    ],
   };
 
   return (
@@ -95,18 +120,6 @@ const LowerNavbar = () => {
                 ))}
               </ul>
             )}
-          </li>
-        ))}
-
-        {/* Remaining Menu Items without Dropdowns */}
-        {["Cleaning & Care", "Lights & Electronics", "Two-Wheeler Accessories"].map((menu, index) => (
-          <li className="relative" key={index + 5}>
-            <button
-              onClick={() => handleClick(menu)}
-              className="hover:text-gray-400 flex items-center"
-            >
-              {menu} ⮟
-            </button>
           </li>
         ))}
       </ul>
