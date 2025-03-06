@@ -8,12 +8,10 @@ const LowerNavbar = () => {
     setOpenDropdown(openDropdown === menu ? null : menu);
   };
 
-  const handleMouseLeave = (menu) => {
-    if (openDropdown === menu) {
-      setTimeout(() => {
-        setOpenDropdown(null);
-      }, 200);
-    }
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      setOpenDropdown(null);
+    }, 200);
   };
 
   const menuItems = {
@@ -104,7 +102,8 @@ const LowerNavbar = () => {
               <ul
                 className="absolute left-0 mt-2 w-56 bg-gray-700 shadow-md rounded-md text-sm z-50 border border-gray-600"
                 onMouseEnter={() => setOpenDropdown(menu)}
-                onMouseLeave={() => handleMouseLeave(menu)}
+                onMouseLeave={handleMouseLeave}
+                style={{ minHeight: "50px", padding: "5px 0" }} // Dynamic height
               >
                 {menuItems[menu].map((item, idx) => (
                   <li
