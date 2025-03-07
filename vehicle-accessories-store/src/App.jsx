@@ -13,13 +13,13 @@ export default function App() {
   return (
     <>
     {/* <Navbar/> */}
-    <LowerNavbar/>
+    <UpperNavbar/>
     <VehicleSelection/>
+    <LowerNavbar/>
     <Card/>
     {/* <Signin/> */}
     
       
-    <UpperNavbar/>
     {/* <Signin/> */}.
     <Footer/>
     

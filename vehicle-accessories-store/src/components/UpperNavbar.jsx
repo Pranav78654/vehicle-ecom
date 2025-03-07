@@ -4,31 +4,39 @@ import { faUser, faBell, faSearch, faShoppingCart } from '@fortawesome/free-soli
 
 const UpperNavbar = () => {
   return (
-    <nav className="bg-gray-800 p-2 flex items-center justify-between">
-      <div className="flex items-center">
+    <nav className="bg-gray-800 p-4 flex items-center justify-between w-full h-16">
+      {/* Left Section (Logo) */}
+      <div className="flex items-center pl-4 w-70">
         <img
           src="https://storage.googleapis.com/a1aa/image/T7O8exLz6A1uQJ9uK_sSH15WaFcPjOrJM3VOR3EF018.jpg"
           alt="Logo"
           className="h-8 w-8"
         />
       </div>
-      <div className="mx-4 w-90">
-        <div className="relative flex items-center bg-gray-700 rounded-full overflow-hidden">
-          <span className="absolute left-3">
-            <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
-          </span>
-          <input
-            type="text"
-            placeholder="Search"
-            className="bg-transparent text-gray-300 pl-10 pr-16 py-2 w-full focus:outline-none"
-          />
-          <button className="absolute right-0 top-0 bottom-0 bg-blue-500 text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer">
-            Search
-          </button>
+
+      {/* Centered Search Bar */}
+      <div className="flex-1 flex justify-center">
+        <div className="w-[90%] max-w-lg">
+          <div className="relative flex items-center bg-gray-700 rounded-full overflow-hidden">
+            <span className="absolute left-3">
+              <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
+            </span>
+            <input
+              type="text"
+              placeholder="Search"
+              className="bg-transparent text-gray-300 pl-10 pr-16 py-2 w-full focus:outline-none"
+            />
+            <button className="absolute right-0 top-0 bottom-0 bg-blue-500 text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer">
+              Search
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Right Section (User & Cart) */}
       <div className="flex items-center space-x-4">
-        <div className="flex items-center space-x-3">
+        {/* User Section */}
+        <div className="flex items-center space-x-3 pr-5">
           <FontAwesomeIcon icon={faUser} className="text-white" />
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white">HELLO</span>
@@ -39,6 +47,8 @@ const UpperNavbar = () => {
             </div>
           </div>
         </div>
+
+        {/* Shopping Cart */}
         <div className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded cursor-pointer">
           <FontAwesomeIcon icon={faShoppingCart} className="text-white text-xl" />
           <div className="flex flex-col">
