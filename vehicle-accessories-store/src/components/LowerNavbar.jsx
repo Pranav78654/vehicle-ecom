@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 const LowerNavbar = () => {
@@ -25,9 +24,6 @@ const LowerNavbar = () => {
       "Armrests",
       "Interior Lighting",
       "Mobile Holders & Chargers",
-      "Extra Item 1",
-      "Extra Item 2",
-      "Extra Item 3",
     ],
     "External Accessories": [
       "Car Covers",
@@ -37,8 +33,6 @@ const LowerNavbar = () => {
       "Spoilers",
       "Door Visors & Wind Deflectors",
       "Side Foot Steps",
-      "Extra Item 1",
-      "Extra Item 2",
     ],
     "Utility Accessories": [
       "Luggage Racks",
@@ -47,8 +41,6 @@ const LowerNavbar = () => {
       "Phone & Tablet Holders",
       "Cup Holders",
       "Multipurpose Hooks",
-      "Extra Item 1",
-      "Extra Item 2",
     ],
     "Spare Parts": [
       "Brake Pads & Discs",
@@ -57,9 +49,6 @@ const LowerNavbar = () => {
       "Filters (Oil, Air, Fuel)",
       "Wipers & Blades",
       "Suspension & Steering Parts",
-      "Extra Item 1",
-      "Extra Item 2",
-      "Extra Item 3",
     ],
     "Security and Safety": [
       "Car Alarms & Immobilizers",
@@ -87,8 +76,6 @@ const LowerNavbar = () => {
       "Interior LED Strips",
       "Underbody Lighting",
       "Number Plate Lights",
-      "Extra Item 1",
-      "Extra Item 2",
     ],
     "Two Wheeler Accessories": [
       "Bike Covers",
@@ -97,14 +84,10 @@ const LowerNavbar = () => {
       "Side Boxes & Saddlebags",
       "Helmet Locks",
       "LED Indicator Lights",
-      "Extra Item 1",
-      "Extra Item 2",
     ],
   };
 
-
   return (
-
     <nav className="bg-gray-800 py-5 shadow-lg relative z-50">
       <ul className="flex justify-center space-x-10 px-10 text-gray-200 text-sm font-semibold uppercase relative">
         {Object.keys(menuItems).map((menu, index) => (
@@ -117,36 +100,29 @@ const LowerNavbar = () => {
             </button>
             {openDropdown === menu && (
               <ul
-                className="absolute left-0 mt-2 w-56 bg-gray-700 shadow-md rounded-md text-sm z-50 border border-gray-600"
+                className="absolute left-0 mt-2 w-56 bg-gray-700 shadow-md rounded-md text-sm z-50 border border-gray-600 overflow-hidden"
                 onMouseEnter={() => setOpenDropdown(menu)}
                 onMouseLeave={handleMouseLeave}
                 style={{
                   maxHeight: "250px", // Fixed height
-                  overflowY: "auto", // Enable scroll inside
-                  scrollbarWidth: "none", // Hide scrollbar (Firefox)
-                  msOverflowStyle: "none", // Hide scrollbar (IE/Edge)
+                  overflowY: "auto", // Allows scrolling if content is too long
                 }}
               >
-                <style>
-                  {`
-                    /* Hide scrollbar for WebKit browsers */
-                    ::-webkit-scrollbar {
-                      display: none;
-                    }
-                  `}
-                </style>
-                {menuItems[menu].map((item, idx) => (
-                  <li
-                    key={idx}
-                    className={`px-4 py-2 cursor-pointer transition-opacity duration-200 ${
-                      hoveredItem === item ? "opacity-100" : "opacity-60"
-                    } hover:opacity-100 hover:bg-gray-600`}
-                    onMouseEnter={() => setHoveredItem(item)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                  >
-                    {item}
-                  </li>
-                ))}
+                {/* ✅ Removed scrollbar hiding styles to keep default browser scrollbar */}
+                <div>
+                  {menuItems[menu].map((item, idx) => (
+                    <li
+                      key={idx}
+                      className={`px-4 py-2 cursor-pointer transition-opacity duration-200 ${
+                        hoveredItem === item ? "opacity-100" : "opacity-60"
+                      } hover:opacity-100 hover:bg-gray-600`}
+                      onMouseEnter={() => setHoveredItem(item)}
+                      onMouseLeave={() => setHoveredItem(null)}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </div>
               </ul>
             )}
           </li>
@@ -157,4 +133,3 @@ const LowerNavbar = () => {
 };
 
 export default LowerNavbar;
-
