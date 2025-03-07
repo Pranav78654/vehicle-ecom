@@ -1,16 +1,16 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell, faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-
+import logo from "../assets/logo.png"
 const UpperNavbar = () => {
   return (
     <nav className="bg-gray-800 p-4 flex items-center justify-between w-full h-16">
       {/* Left Section (Logo) */}
       <div className="flex items-center pl-4 w-70">
         <img
-          src="https://storage.googleapis.com/a1aa/image/T7O8exLz6A1uQJ9uK_sSH15WaFcPjOrJM3VOR3EF018.jpg"
+          src={logo}
           alt="Logo"
-          className="h-8 w-8"
+          className=" w-35"
         />
       </div>
 
