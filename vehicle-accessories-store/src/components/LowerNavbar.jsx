@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 const LowerNavbar = () => {
@@ -101,66 +102,59 @@ const LowerNavbar = () => {
     ],
   };
 
+
   return (
-    <Disclosure as="nav" className="bg-gray-800">
-      <div className="max-w-9xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-center">
-          <div className="flex space-x-4">
-            {LowerNavbar.map((item) => (
-              <Menu as="div" className="relative" key={item.name}>
-                <div>
-                  <MenuButton className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                    {item.name}
-                  </MenuButton>
-                </div>
-                <Menu.Items
-                  className="absolute left-0 z-10 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
-                >
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? 'bg-gray-100' : '',
-                          'block px-4 py-2 text-sm text-gray-700'
-                        )}
-                      >
-                        Option 1
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? 'bg-gray-100' : '',
-                          'block px-4 py-2 text-sm text-gray-700'
-                        )}
-                      >
-                        Option 2
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? 'bg-gray-100' : '',
-                          'block px-4 py-2 text-sm text-gray-700'
-                        )}
-                      >
-                        Option 3
-                      </a>
-                    )}
-                  </Menu.Item>
-                </Menu.Items>
-              </Menu>
-            ))}
-          </div>
-        </div>
-      </div>
-    </Disclosure>
-  )
-}
+
+    <nav className="bg-gray-800 py-5 shadow-lg relative z-50">
+      <ul className="flex justify-center space-x-10 px-10 text-gray-200 text-sm font-semibold uppercase relative">
+        {Object.keys(menuItems).map((menu, index) => (
+          <li key={index} className="relative">
+            <button
+              onClick={() => handleClick(menu)}
+              className="hover:text-gray-400 flex items-center gap-1"
+            >
+              {menu} ⮟
+            </button>
+            {openDropdown === menu && (
+              <ul
+                className="absolute left-0 mt-2 w-56 bg-gray-700 shadow-md rounded-md text-sm z-50 border border-gray-600"
+                onMouseEnter={() => setOpenDropdown(menu)}
+                onMouseLeave={handleMouseLeave}
+                style={{
+                  maxHeight: "250px", // Fixed height
+                  overflowY: "auto", // Enable scroll inside
+                  scrollbarWidth: "none", // Hide scrollbar (Firefox)
+                  msOverflowStyle: "none", // Hide scrollbar (IE/Edge)
+                }}
+              >
+                <style>
+                  {`
+                    /* Hide scrollbar for WebKit browsers */
+                    ::-webkit-scrollbar {
+                      display: none;
+                    }
+                  `}
+                </style>
+                {menuItems[menu].map((item, idx) => (
+                  <li
+                    key={idx}
+                    className={`px-4 py-2 cursor-pointer transition-opacity duration-200 ${
+                      hoveredItem === item ? "opacity-100" : "opacity-60"
+                    } hover:opacity-100 hover:bg-gray-600`}
+                    onMouseEnter={() => setHoveredItem(item)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default LowerNavbar;
+
