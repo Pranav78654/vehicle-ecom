@@ -16,6 +16,7 @@ export default function App() {
     <UpperNavbar/>
     <LowerNavbar/>
     <VehicleSelection/>
+    <LowerNavbar/>
     <Card/>
     {/* <Signin/> */}
     

@@ -8,7 +8,7 @@ function classNames(...classes) {
 
 const VehicleSelection = () => {
   // State for selected dropdown values
-  const [selectedBrand, setSelectedBrand] = useState("Select Vehicle Brand");
+  const [selectedBrand, setSelectedBrand] = useState("Select Vehicle");
   const [selectedModel, setSelectedModel] = useState("Select Model");
   const [selectedYear, setSelectedYear] = useState("Select Year");
 
