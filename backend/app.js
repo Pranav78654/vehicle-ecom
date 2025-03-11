@@ -33,7 +33,7 @@ sequelize.authenticate()
   .catch(err => console.error('Error: ' + err));
 
 // Sync database with { alter: true } to prevent table recreation
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: false })
   .then(() => console.log('DB synchronized'))
   .catch(err => console.error('Sync error: ' + err));
 

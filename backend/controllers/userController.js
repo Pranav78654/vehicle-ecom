@@ -4,28 +4,33 @@ const { generateToken } = require('../utils/jwt');
 
 // **Register User**
 exports.register = async (req, res) => {
-    try {
-      const { username, email, password, role_id } = req.body;
-  
-      if (!username || !email || !password || !role_id) {
-        return res.status(400).json({ error: 'All fields are required' });
-      }
+  try {
+    const { username, phone, password, role_id } = req.body;
 
-      const existingUser = await User.findOne({ where: { email } });
-      if (existingUser) {
-        return res.status(400).json({ error: 'Email already registered' });
-      }
-  
-      // Create new user
-      const newUser = await User.create({ username, email, password, role_id });
-  
-      res.status(201).json({ message: 'User registered successfully', user: newUser });
-    } catch (error) {
-      console.error('Error registering user:', error);
-      res.status(500).json({ error: error.message });
+    if (!username || !phone || !password) {
+      return res.status(400).json({ error: 'Username, phone, and password are required' });
     }
-  };
-  
+
+    const existingUser = await User.findOne({ where: { phone } });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Phone number already registered' });
+    }
+
+    // Default role_id to 2 if not provided
+    const newUser = await User.create({ 
+      username, 
+      phone, 
+      password, 
+      role_id: role_id || 2 // Defaults to "User" role
+    });
+
+    res.status(201).json({ message: 'User registered successfully', user: newUser });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // **Login User**
 exports.login = async (req, res) => {
   try {
