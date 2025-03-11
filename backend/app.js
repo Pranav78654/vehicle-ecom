@@ -1,10 +1,16 @@
+const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
 const models = require('./models');
 
+
+// Import aggregated schema and resolvers
+const typeDefs = require('./graphql/schema'); // Imports all combined schemas
+const resolvers = require('./graphql/resolvers'); // Imports all combined resolvers
+
 // Import routes
-const countryRoutes = require('./routes/countryRoutes');
+// const countryRoutes = require('./routes/countryRoutes');
 const stateRoutes = require('./routes/stateRoutes');
 const designationRoutes = require('./routes/designationRoutes');
 const categoryRoutes = require('./routes/categorgyRoutes');
@@ -13,7 +19,6 @@ const rolesRoutes = require('./routes/rolesRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const regionRoutes = require('./routes/regionRoutes');
 const permissionMasterRoutes = require('./routes/permissionMasterRoutes');
-
 const productRoutes = require('./routes/productRoutes');
 const productImageRoutes = require('./routes/productImageRoutes');
 const productVariantRoutes = require('./routes/productVariantRoutes');
@@ -43,7 +48,7 @@ app.get('/', (req, res) => {
 });
 
 // Using API routes
-app.use('/api/countries', countryRoutes);
+// app.use('/api/countries', countryRoutes);
 app.use('/api', stateRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/category', categoryRoutes);
@@ -57,8 +62,27 @@ app.use('/api/product-images', productImageRoutes);
 app.use('/api/product-variants', productVariantRoutes);
 app.use('/api', brandRoutes);
 
-// Set up the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-module.exports = app;
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+});
+
+async function startServer() {
+  await server.start();
+  server.applyMiddleware({ app, path: '/graphql' }); // apply middleware once the server is started
+
+  // Example test route
+  app.get('/', (req, res) => {
+      res.send('Server is running!');
+  });
+
+  // Set up the server
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`GraphQL endpoint is http://localhost:${PORT}${server.graphqlPath}`);
+  });
+}
+
+startServer(); // Execute the async function to start the server
