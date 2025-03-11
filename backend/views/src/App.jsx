@@ -13,16 +13,16 @@ export default function App() {
   return (
     <>
     {/* <Navbar/> */}
-    {/* <UpperNavbar/>
+    <UpperNavbar/>
     <LowerNavbar/>
     <VehicleSelection/>
     <LowerNavbar/>
-    <Card/> */}
-    <Signin/>
+    <Card/>
+    {/* <Signin/> */}
     
       
     {/* <Signin/> */}.
-    {/* <Footer/> */}
+    <Footer/>
     
     </>
   );
