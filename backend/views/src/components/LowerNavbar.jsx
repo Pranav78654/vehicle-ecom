@@ -100,15 +100,14 @@ const LowerNavbar = () => {
             </button>
             {openDropdown === menu && (
               <ul
-                className="absolute left-0 mt-2 w-56 bg-gray-700 shadow-md rounded-md text-sm z-50 border border-gray-600 overflow-hidden"
+                className="absolute left-0 mt-2 w-56 bg-gray-700 shadow-md rounded-md text-sm z-50 border border-gray-600 overflow-hidden scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-900/80"
                 onMouseEnter={() => setOpenDropdown(menu)}
                 onMouseLeave={handleMouseLeave}
                 style={{
-                  maxHeight: "250px", // Fixed height
-                  overflowY: "auto", // Allows scrolling if content is too long
+                  maxHeight: "250px",
+                  overflowY: "auto",
                 }}
               >
-                {/* ✅ Removed scrollbar hiding styles to keep default browser scrollbar */}
                 <div>
                   {menuItems[menu].map((item, idx) => (
                     <li
