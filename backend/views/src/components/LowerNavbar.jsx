@@ -96,7 +96,7 @@ const LowerNavbar = () => {
               onClick={() => handleClick(menu)}
               className="hover:text-gray-400 flex items-center gap-1"
             >
-              {menu} ⮟
+              {menu}
             </button>
             {openDropdown === menu && (
               <ul
