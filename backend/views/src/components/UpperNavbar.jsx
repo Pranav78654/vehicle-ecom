@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell, faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.jpg"
 const UpperNavbar = () => {
   return (
     <nav className="bg-gray-800 p-4 flex items-center justify-between w-full h-20">
