@@ -4,7 +4,10 @@ import { faUser, faBell, faSearch, faShoppingCart } from '@fortawesome/free-soli
 import logo from "../assets/logo.jpg"
 const UpperNavbar = () => {
   return (
-    <nav className="bg-gray-800 p-4 flex items-center justify-between w-full h-20">
+<nav className="bg-[#2C2231]/80 p-4 flex items-center justify-between border-b border-white/30 shadow-md w-full h-20">
+
+
+
       {/* Left Section (Logo) */}
       <div className="flex items-center pl-4 w-70">
         <img

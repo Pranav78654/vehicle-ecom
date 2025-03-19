@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Menu } from "@headlessui/react";
-import carimage from "../assets/carimage.jpg";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -15,12 +14,8 @@ const VehicleSelection = () => {
   return (
     <div className="w-full">
       <div className="relative h-[400px] rounded-lg overflow-hidden">
-        <img
-          alt="A red car on a road with mountains in the background"
-          className="absolute inset-0 w-full h-full object-cover blur-[2.5px]"
-          src={carimage}
-        />
-        <div className="absolute inset-0 bg-opacity-75 flex flex-col items-center justify-center text-center p-4">
+        {/* Adjusted background to a specific color with transparency */}
+        <div className="absolute inset-0  bg-opacity-50 flex flex-col items-center justify-center text-center p-4">
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">
             SELECT YOUR VEHICLE
           </h1>

@@ -88,7 +88,9 @@ const LowerNavbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 py-5 shadow-lg relative z-50">
+    <nav className="sticky top-0 bg-[#2C2231]/80 py-5 shadow-lg z-50">
+
+
       <ul className="flex justify-center space-x-10 px-10 text-gray-200 text-sm font-semibold uppercase relative">
         {Object.keys(menuItems).map((menu, index) => (
           <li key={index} className="relative">
@@ -100,7 +102,7 @@ const LowerNavbar = () => {
             </button>
             {openDropdown === menu && (
               <ul
-                className="absolute left-0 mt-2 w-56 bg-gray-700 shadow-md rounded-md text-sm z-50 border border-gray-600 overflow-hidden"
+                className="absolute left-0 mt-2 w-56 bg-[#2C2231]/90 shadow-md rounded-md text-sm z-50 border border-white-600 overflow-hidden"
                 onMouseEnter={() => setOpenDropdown(menu)}
                 onMouseLeave={handleMouseLeave}
                 style={{
