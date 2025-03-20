@@ -88,7 +88,9 @@ const LowerNavbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 bg-[#2C2231]/80 py-5 shadow-lg z-50">
+    <nav 
+    className="sticky top-0 py-5 shadow-lg z-50"
+    style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
 
 
       <ul className="flex justify-center space-x-10 px-10 text-gray-200 text-sm font-semibold uppercase relative">

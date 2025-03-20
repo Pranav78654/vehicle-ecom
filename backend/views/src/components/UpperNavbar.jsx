@@ -4,7 +4,8 @@ import { faUser, faBell, faSearch, faShoppingCart } from '@fortawesome/free-soli
 import logo from "../assets/logo.jpg"
 const UpperNavbar = () => {
   return (
-<nav className="bg-[#2C2231]/80 p-4 flex items-center justify-between border-b border-white/30 shadow-md w-full h-20">
+<nav className="p-4 flex items-center justify-between border-b border-white/30 shadow-md w-full h-20"
+style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
 
 
 
