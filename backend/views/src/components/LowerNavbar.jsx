@@ -104,12 +104,14 @@ const LowerNavbar = () => {
             </button>
             {openDropdown === menu && (
               <ul
-                className="absolute left-0 mt-2 w-56 bg-[#2C2231]/90 shadow-md rounded-md text-sm z-50 border border-white-600 overflow-hidden"
+                className="absolute left-0 mt-2 w-56  shadow-md rounded-md text-sm z-50 border border-white-600 overflow-hidden"
+                
                 onMouseEnter={() => setOpenDropdown(menu)}
                 onMouseLeave={handleMouseLeave}
                 style={{
                   maxHeight: "250px", // Fixed height
                   overflowY: "auto", // Allows scrolling if content is too long
+                backgroundColor: 'rgba(0,0,0,0.65)' 
                 }}
               >
                 {/* ✅ Removed scrollbar hiding styles to keep default browser scrollbar */}

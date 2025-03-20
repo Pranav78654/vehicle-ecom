@@ -2,7 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="py-8 text-white bg-[#2C2231]/30">
+    <footer className="py-8 text-white"
+    style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
 
       <div className="container mx-auto text-center">
         <div className="flex justify-center space-x-8 mb-4">
