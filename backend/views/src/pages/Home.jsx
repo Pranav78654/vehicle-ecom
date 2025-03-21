@@ -4,14 +4,14 @@ import VehicleSelection from '../components/VehicleSelection'
 import TrendingSection from '../components/Trending';
 import Brands from '../components/Brands';
 import CarCarousel from '../components/carousel';
+import Card2 from '../components/Card2';
+import Cart from '../components/Cart';
 export default function Home() {
   return (
     <>
-    <CarCarousel/>
-    <TrendingSection/>
-    <Brands/>
-    {/* <VehicleSelection/> */}
-    {/* <Card/> */}
+    
+    <VehicleSelection/>
+    <Card/>
     </>
   );
 }
