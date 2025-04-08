@@ -1,21 +1,21 @@
 import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBell, faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import logo from "../assets/logo.jpg"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faSearch, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion"; // Import Framer Motion
+import logo from "../assets/logo.jpg";
+
 const UpperNavbar = () => {
   return (
-<nav className="p-4 flex items-center justify-between border-b border-white/30 shadow-md w-full h-20"
-style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
-
-
-
+    <motion.nav
+      initial={{ opacity: 0, y: -50 }} // Start hidden and move down
+      animate={{ opacity: 1, y: 0 }} // Animate to visible
+      transition={{ duration: 0.8, ease: "easeOut" }} // Smooth transition
+      className="p-4 flex items-center justify-between border-b border-white/30 shadow-md w-full h-20"
+      style={{ backgroundColor: "rgba(0,0,0,0.65)" }}
+    >
       {/* Left Section (Logo) */}
       <div className="flex items-center pl-4 w-70">
-        <img
-          src={logo}
-          alt="Logo"
-          className=" w-35"
-        />
+        <img src={logo} alt="Logo" className="w-35" />
       </div>
 
       {/* Centered Search Bar */}
@@ -45,9 +45,13 @@ style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white">HELLO</span>
             <div className="flex space-x-2 text-sm text-white">
-              <a href="#" className="hover:underline">SIGN IN</a>
+              <a href="#" className="hover:underline">
+                SIGN IN
+              </a>
               <span>|</span>
-              <a href="#" className="hover:underline">REGISTER</a>
+              <a href="#" className="hover:underline">
+                REGISTER
+              </a>
             </div>
           </div>
         </div>
@@ -61,7 +65,7 @@ style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
