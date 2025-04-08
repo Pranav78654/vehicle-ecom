@@ -44,8 +44,10 @@ const Auth = () => {
   };
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center h-screen">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+    <div className="flex items-center justify-center h-screen text-[#f3f4f6]" >
+      <div className="p-8 rounded-lg shadow-md w-96 bg-[#2c2231]/70" 
+      // style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}
+      >
         {/* <div className="flex justify-around mb-6">
           <button
             onClick={() => setForm("login")}
@@ -72,7 +74,7 @@ const Auth = () => {
           <form onSubmit={handleLogin}>
             <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Username or Phone</label>
+              <label className="block text-sm font-medium">Username or Phone</label>
               <input
                 type="text"
                 value={identifier}
@@ -82,7 +84,7 @@ const Auth = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <label className="block text-sm font-medium">Password</label>
               <input
                 type="password"
                 value={password}
@@ -91,17 +93,17 @@ const Auth = () => {
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
-            <button type="submit" className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600">
+            <button type="submit" className="w-full bg-[#134e4a] text-white py-2 rounded-md hover:bg-[#1e3a8a]">
               Login
             </button>
             <p className="text-center mt-4">
-              <button onClick={() => setForm("forgotPassword")} className="text-red-500">
+              <button onClick={() => setForm("forgotPassword")} className="text-[#dc2626]">
                 Forgot Password?
               </button>
             </p>
             <p className="text-center mt-4">
               Don't have an account?{" "}
-              <button onClick={() => setForm("register")} className="text-blue-500">
+              <button onClick={() => setForm("register")} className="text-[#2563eb]">
                 Register here
               </button>
             </p>
@@ -113,7 +115,7 @@ const Auth = () => {
           <form onSubmit={handleRegister}>
             <h1 className="text-2xl font-bold text-center mb-6">Register</h1>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Username</label>
+              <label className="block text-sm font-medium ">Username</label>
               <input
                 type="text"
                 value={username}
@@ -123,7 +125,7 @@ const Auth = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="block text-sm font-medium ">Phone Number</label>
               <input
                 type="text"
                 value={phone}
@@ -133,7 +135,7 @@ const Auth = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <label className="block text-sm font-medium ">Password</label>
               <input
                 type="password"
                 value={password}
@@ -142,12 +144,12 @@ const Auth = () => {
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
               />
             </div>
-            <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+            <button type="submit" className="w-full bg-[#1e3a8a] text-white py-2 rounded-md hover:bg-[#818cf8]">
               Register
             </button>
             <p className="text-center mt-4">
               Already have an account?{" "}
-              <button onClick={() => setForm("login")} className="text-blue-500">
+              <button onClick={() => setForm("login")} className="text-[#2563eb]">
                 Login here
               </button>
             </p>
@@ -159,7 +161,7 @@ const Auth = () => {
           <div>
             <h1 className="text-2xl font-bold text-center mb-6">Reset Password</h1>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Enter Username or Phone</label>
+              <label className="block text-sm font-medium ">Enter Username or Phone</label>
               <input
                 type="text"
                 value={identifier}
@@ -171,12 +173,12 @@ const Auth = () => {
             <button
               type="button"
               onClick={handleSendOTP}
-              className="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600"
+              className="w-full bg-[#f59e0b] text-white py-2 rounded-md hover:bg-yellow-600"
             >
               Send OTP
             </button>
             <p className="text-center mt-4">
-              <button onClick={() => setForm("login")} className="text-blue-500">
+              <button onClick={() => setForm("login")} className="text-[#2563eb]">
                 Back to Login
               </button>
             </p>

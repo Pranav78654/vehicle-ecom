@@ -1,10 +1,14 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell, faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.jpg"
 const UpperNavbar = () => {
   return (
-    <nav className="bg-gray-800 p-4 flex items-center justify-between w-full h-20">
+<nav className="p-4 flex items-center justify-between border-b border-white/30 shadow-md w-full h-20"
+style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
+
+
+
       {/* Left Section (Logo) */}
       <div className="flex items-center pl-4 w-70">
         <img
@@ -17,7 +21,7 @@ const UpperNavbar = () => {
       {/* Centered Search Bar */}
       <div className="flex-1 flex justify-center">
         <div className="w-[90%] max-w-lg">
-          <div className="relative flex items-center bg-gray-700 rounded-full overflow-hidden">
+          <div className="relative flex items-center bg-[#6b7280]/70 rounded-full overflow-hidden">
             <span className="absolute left-3">
               <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
             </span>
@@ -26,7 +30,7 @@ const UpperNavbar = () => {
               placeholder="Search"
               className="bg-transparent text-gray-300 pl-10 pr-16 py-2 w-full focus:outline-none"
             />
-            <button className="absolute right-0 top-0 bottom-0 bg-blue-500 text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer">
+            <button className="absolute right-0 top-0 bottom-0 bg-[#f59e0b] text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer">
               Search
             </button>
           </div>
