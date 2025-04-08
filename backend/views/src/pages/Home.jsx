@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
     <CarCarousel/>
-    <VehicleSelection/>
+    {/* <VehicleSelection/> */}
     <Card/>
     <Card2/>
     <Cart/>

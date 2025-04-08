@@ -4,12 +4,15 @@ import Auth from "./pages/Auth";
 import UpperNavbar from "./components/UpperNavbar";
 import LowerNavbar from "./components/LowerNavbar";
 import Footer from "./components/Footer";
+import Cart from "./pages/Cart";
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/*" element={<MainLayout />} />
         <Route path="/signin" element={<Auth />} /> {/* Signin page without Navbar/Footer */}
+        
+
       </Routes>
     </Router>
   );
@@ -29,7 +32,7 @@ function MainLayout() {
       {/* Nested Routes for pages */}
       <Routes>
         <Route path="/" element={<Home />} />
-        
+        <Route path="/cart" element={<Cart />} /> 
       </Routes>
 
       {/* Show Footer only if the current route is NOT in noNavbarFooterRoutes */}
