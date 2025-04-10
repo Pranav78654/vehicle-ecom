@@ -22,12 +22,26 @@ exports.getBrandById = async (req, res) => {
   }
 };
 
-// Create new brand
+// Create new brand or bulk create brands
 exports.createBrand = async (req, res) => {
   try {
-    const newBrand = await Brand.create(req.body);
-    res.status(201).json(newBrand);
+    if (Array.isArray(req.body)) {
+      // Bulk create
+      const brands = await Brand.bulkCreate(req.body);
+      return res.status(201).json({
+        message: `${brands.length} brands created successfully`,
+        data: brands
+      });
+    } else {
+      // Single create
+      const newBrand = await Brand.create(req.body);
+      return res.status(201).json({
+        message: 'Brand created successfully',
+        data: newBrand
+      });
+    }
   } catch (err) {
+    console.error('Error creating brand(s):', err);
     res.status(400).json({ error: err.message });
   }
 };

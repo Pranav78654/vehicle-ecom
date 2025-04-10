@@ -23,9 +23,16 @@ exports.getCarById = async (req, res) => {
 
 exports.createCar = async (req, res) => {
   try {
-    const newCar = await Car.create(req.body);
+    const carData = req.body;
+
+    if (req.file) {
+      carData.imageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+    }
+
+    const newCar = await Car.create(carData);
     res.status(201).json(newCar);
   } catch (err) {
+    console.error("Error creating car:", err);
     res.status(400).json({ error: err.message });
   }
 };

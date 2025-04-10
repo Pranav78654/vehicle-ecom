@@ -12,8 +12,21 @@ exports.getAllCarTypes = async (req, res) => {
 
 exports.createCarType = async (req, res) => {
   try {
-    const type = await CarType.create(req.body);
-    res.status(201).json(type);
+    if (Array.isArray(req.body)) {
+      // Bulk create
+      const types = await CarType.bulkCreate(req.body);
+      res.status(201).json({
+        message: `${types.length} car types created successfully`,
+        data: types
+      });
+    } else {
+      // Single create
+      const type = await CarType.create(req.body);
+      res.status(201).json({
+        message: 'Car type created successfully',
+        data: type
+      });
+    }
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

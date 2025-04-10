@@ -5,13 +5,14 @@ import UpperNavbar from "./components/UpperNavbar";
 import LowerNavbar from "./components/LowerNavbar";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
+import AddCar from "./pages/Addcar";
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/*" element={<MainLayout />} />
         <Route path="/signin" element={<Auth />} /> {/* Signin page without Navbar/Footer */}
-        
+        <Route path="/addcar" element={<AddCar />} />
 
       </Routes>
     </Router>

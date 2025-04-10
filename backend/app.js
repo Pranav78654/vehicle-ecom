@@ -1,16 +1,15 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
+const cors = require('cors');
 const sequelize = require('./config/database');
 const models = require('./models');
 
-
-// Import aggregated schema and resolvers
-const typeDefs = require('./graphql/schema'); // Imports all combined schemas
-const resolvers = require('./graphql/resolvers'); // Imports all combined resolvers
+const typeDefs = require('./graphql/schema');
+const resolvers = require('./graphql/resolvers');
 
 // Import routes
-// const countryRoutes = require('./routes/countryRoutes');
 const stateRoutes = require('./routes/stateRoutes');
 const designationRoutes = require('./routes/designationRoutes');
 const categoryRoutes = require('./routes/categorgyRoutes');
@@ -23,32 +22,20 @@ const productRoutes = require('./routes/productRoutes');
 const productImageRoutes = require('./routes/productImageRoutes');
 const productVariantRoutes = require('./routes/productVariantRoutes');
 const brandRoutes = require('./routes/brandRoutes');
-const carRoutes = require('./routes/carRoutes');
-const carType = require('./routes/carTypeRoutes');
+const carRoutes = require('./routes/carRoutes');      // ✅ Handles image upload
+const carTypeRoutes = require('./routes/carTypeRoutes');
 
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Test DB connection
-sequelize.authenticate()
-  .then(() => console.log('Database connected...'))
-  .catch(err => console.error('Error: ' + err));
+// ✅ Serve uploaded images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Sync database with { alter: true } to prevent table recreation
-sequelize.sync({ alter: false })
-  .then(() => console.log('DB synchronized'))
-  .catch(err => console.error('Sync error: ' + err));
-
-// Example test route
-app.get('/', (req, res) => {
-  res.send('Server is running!');
-});
-
-// Using API routes
-// app.use('/api/countries', countryRoutes);
+// ✅ API Routes
 app.use('/api', stateRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/category', categoryRoutes);
@@ -61,8 +48,24 @@ app.use('/api/products', productRoutes);
 app.use('/api/product-images', productImageRoutes);
 app.use('/api/product-variants', productVariantRoutes);
 app.use('/api/brand', brandRoutes);
-app.use('/api/car' , carRoutes);
-app.use('/api/type' , carType);
+app.use('/api/car', carRoutes);           // ✅ Updated POST: uses multer
+app.use('/api/type', carTypeRoutes);      // ✅ For Car Types
+
+// ✅ Test route
+app.get('/', (req, res) => {
+  res.send('Server is running!');
+});
+
+// ✅ Connect to DB
+sequelize.authenticate()
+  .then(() => console.log('Database connected...'))
+  .catch(err => console.error('Error: ' + err));
+
+sequelize.sync({ alter: false })
+  .then(() => console.log('DB synchronized'))
+  .catch(err => console.error('Sync error: ' + err));
+
+// ✅ Start Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers
@@ -70,19 +73,13 @@ const server = new ApolloServer({
 
 async function startServer() {
   await server.start();
-  server.applyMiddleware({ app, path: '/graphql' }); // apply middleware once the server is started
+  server.applyMiddleware({ app, path: '/graphql' });
 
-  // Example test route
-  app.get('/', (req, res) => {
-      res.send('Server is running!');
-  });
-
-  // Set up the server
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-      console.log(`GraphQL endpoint is http://localhost:${PORT}${server.graphqlPath}`);
+    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`GraphQL endpoint is http://localhost:${PORT}${server.graphqlPath}`);
   });
 }
 
-startServer(); // Execute the async function to start the server
+startServer();
