@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import AddCar from "./pages/Addcar"; // ✅ AddCar page
 import SearchPage from "./pages/SearchPage";
+import Payment from "./pages/Payment";
 function App() {
   return (
     <Router>
@@ -30,18 +31,15 @@ function MainLayout() {
   const showLayout = !noNavbarFooterRoutes.includes(location.pathname);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {showLayout && <UpperNavbar />}
-
-      <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/addcar" element={<AddCar />} />
-          <Route path="/car/:id" element={<CardDetails />} />
-          <Route path="/search" element={<SearchPage />} />
-        </Routes>
-      </main>
+    <>
+      {/* Show Navbar only if the current route is NOT in noNavbarFooterRoutes */}
+      {!noNavbarFooterRoutes.includes(location.pathname) && <UpperNavbar />}
+      {!noNavbarFooterRoutes.includes(location.pathname) && <LowerNavbar />}
+      {/* Nested Routes for pages */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<Cart />} /> 
+      </Routes>
 
       {showLayout && <Footer />}
     </div>
