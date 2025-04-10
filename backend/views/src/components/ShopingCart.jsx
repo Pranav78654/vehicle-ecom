@@ -191,7 +191,7 @@ const ShopingCart = () => {
               </div>
             </div>
             <button
-              onClick={() => navigate("/Payment")}
+              onClick={() => navigate("/Payment", { state: { cartItems } })}
               className="w-full mt-8 bg-[#0f89e0] hover:bg-[#0f45e9] text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
             >
               Check Out
