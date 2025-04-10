@@ -5,6 +5,7 @@ import UpperNavbar from "./components/UpperNavbar";
 import LowerNavbar from "./components/LowerNavbar";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
+import Payment from "./pages/Payment";
 function App() {
   return (
     <Router>
@@ -33,6 +34,8 @@ function MainLayout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} /> 
+        <Route path="/payment" element={<Payment/>} />
+
       </Routes>
 
       {/* Show Footer only if the current route is NOT in noNavbarFooterRoutes */}
