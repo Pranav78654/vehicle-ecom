@@ -6,11 +6,12 @@ import "swiper/css";
 // Import images from src/assets
 import bgImage from "../assets/bgimage.jpg";
 import carimage from "../assets/carimage.jpg";
-
+import bmw from "../assets/bmw.jpg"
 const CarCarousel = () => {
   const [images, setImages] = useState([
     bgImage,
-    carimage
+    carimage,
+    bmw
   ]);
 
   return (

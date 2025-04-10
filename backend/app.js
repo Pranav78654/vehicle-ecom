@@ -23,8 +23,8 @@ const productRoutes = require('./routes/productRoutes');
 const productImageRoutes = require('./routes/productImageRoutes');
 const productVariantRoutes = require('./routes/productVariantRoutes');
 const brandRoutes = require('./routes/brandRoutes');
-
-
+const carRoutes = require('./routes/carRoutes');
+const carType = require('./routes/carTypeRoutes');
 
 const app = express();
 
@@ -60,9 +60,9 @@ app.use('/permission_masters', permissionMasterRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/product-images', productImageRoutes);
 app.use('/api/product-variants', productVariantRoutes);
-app.use('/api', brandRoutes);
-
-
+app.use('/api/brand', brandRoutes);
+app.use('/api/car' , carRoutes);
+app.use('/api/type' , carType);
 const server = new ApolloServer({
   typeDefs,
   resolvers
