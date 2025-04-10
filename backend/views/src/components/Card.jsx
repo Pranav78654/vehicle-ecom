@@ -3,7 +3,7 @@ import '../css/card.css'; // Optional
 
 function Card({ image, title, year, fuel, kms, price }) {
   return (
-    <div className="bg-[rgba(0,0,0)] text-white rounded-lg shadow-lg p-4 w-[270px] h-[400px] flex flex-col justify-between">
+    <div className="bg-[#2c2231]/70 text-white rounded-lg shadow-lg p-4 w-[270px] h-[400px] flex flex-col justify-between">
       <div>
         <div className="mb-4">
           <img

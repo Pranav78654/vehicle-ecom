@@ -29,7 +29,7 @@ function MainLayout() {
     <>
       {/* Show Navbar only if the current route is NOT in noNavbarFooterRoutes */}
       {!noNavbarFooterRoutes.includes(location.pathname) && <UpperNavbar />}
-      {!noNavbarFooterRoutes.includes(location.pathname) && <LowerNavbar />}
+      {/* {!noNavbarFooterRoutes.includes(location.pathname) && <LowerNavbar />} */}
       {/* Nested Routes for pages */}
       <Routes>
         <Route path="/" element={<Home />} />
