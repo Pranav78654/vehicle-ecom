@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background-image: url('./assets/carimage.jpg'); /* Set the image */
+  background-image: url('./assets/carimage.jpg'); /* Set the image */ 
   background-size: cover; /* Cover the entire viewport */
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Prevent repetition */

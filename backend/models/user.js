@@ -1,25 +1,25 @@
-const bcrypt = require('bcryptjs');  
+const bcrypt = require('bcryptjs');
 
-module.exports = (sequelize, DataTypes) => {   
-  const User = sequelize.define('User', {     
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },     
-    username: { type: DataTypes.STRING, allowNull: false },     
-    phone: { type: DataTypes.STRING, allowNull: false, unique: true },     
-    password: { type: DataTypes.STRING, allowNull: false },     
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false }, // ✅ changed username to name
+    phone: { type: DataTypes.STRING, allowNull: false, unique: true },
+    password: { type: DataTypes.STRING, allowNull: false },
     role_id: { type: DataTypes.INTEGER, defaultValue: 2 } // Default role_id to 2 (assuming "User" role)
-  }, {     
-    tableName: 'user',     
-    timestamps: false,     
-    hooks: {       
-      beforeCreate: async (user) => {         
-        user.password = await bcrypt.hash(user.password, 10);       
-      }     
-    }   
-  });    
+  }, {
+    tableName: 'user',
+    timestamps: false,
+    hooks: {
+      beforeCreate: async (user) => {
+        user.password = await bcrypt.hash(user.password, 10);
+      }
+    }
+  });
 
-  User.associate = function(models) {     
-    User.belongsTo(models.Roles, { foreignKey: 'role_id' });   
-  };    
+  User.associate = function(models) {
+    User.belongsTo(models.Roles, { foreignKey: 'role_id' });
+  };
 
-  return User; 
+  return User;
 };

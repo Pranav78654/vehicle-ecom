@@ -6,6 +6,7 @@ const cors = require('cors');
 const sequelize = require('./config/database');
 const models = require('./models');
 
+// Import aggregated schema and resolvers
 const typeDefs = require('./graphql/schema');
 const resolvers = require('./graphql/resolvers');
 
@@ -26,6 +27,12 @@ const carRoutes = require('./routes/carRoutes');      // ✅ Handles image uploa
 const carTypeRoutes = require('./routes/carTypeRoutes');
 
 const app = express();
+
+// ====== Add CORS middleware at the top ======
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 // Middleware
 app.use(cors());
