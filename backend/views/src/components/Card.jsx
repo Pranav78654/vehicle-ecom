@@ -1,32 +1,45 @@
-import React from "react";
+import React from 'react';
+import '../css/card.css'; // Optional
 
-const Card = () => {
+function Card({ image, title, year, fuel, kms, price }) {
   return (
-    <div className="relative flex flex-col my-3 bg-white shadow-sm border border-slate-200 rounded-lg w-64 transition-all duration-300 hover:scale-105 hover:shadow-lg">
-      <div className="relative p-2 h-56 overflow-hidden rounded-lg">
-        <img
-          src="https://images.unsplash.com/photo-1629367494173-c78a56567877?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=927&amp;q=80"
-          alt="card-image"
-          className="h-full w-full object-cover rounded-md"
-        />
-      </div>
-      <div className="p-2">
-        <div className="mb-2 flex items-center justify-between">
-          <p className="text-slate-800 text-base font-semibold">Apple AirPods</p>
-          <p className="text-cyan-600 text-base font-semibold">$95.00</p>
+    <div className="bg-[#2c2231]/70 text-white rounded-lg shadow-lg p-4 w-[270px] h-[400px] flex flex-col justify-between">
+      <div>
+        <div className="mb-4">
+          <img
+            alt={title}
+            src={image}
+            className="rounded-lg w-full h-[200px] object-cover"
+          />
         </div>
-        <p className="text-slate-600 text-xs leading-snug font-light">
-          With plenty of talk and listen time, voice-activated Siri access, and a wireless charging case.
+
+        <h2 className="text-lg font-bold text-center mb-2 truncate" title={title}>
+          {title}
+        </h2>
+
+        <div className="flex justify-between mb-4">
+          <div className="text-center">
+            <p className="text-sm">Registered</p>
+            <p className="font-bold">{year}</p>
+          </div>
+          <div className="text-center">
+            <p className="text-sm">Fuel</p>
+            <p className="font-bold">{fuel}</p>
+          </div>
+          <div className="text-center">
+            <p className="text-sm">Kms</p>
+            <p className="font-bold">{kms}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center">
+        <p className="text-2xl font-bold text-gray-800 bg-[#f59e0b] py-2 rounded-lg">
+          ₹ {price.toLocaleString('en-IN')}
         </p>
-        <button
-          className="rounded-md w-full mt-3 bg-cyan-600 py-1.5 px-3 border border-transparent text-center text-xs text-white transition-all shadow-md hover:shadow-lg focus:bg-cyan-700 focus:shadow-none active:bg-cyan-700 hover:bg-cyan-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button"
-        >
-          Add to Cart
-        </button>
       </div>
     </div>
   );
-};
+}
 
 export default Card;

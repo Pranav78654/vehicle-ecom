@@ -1,0 +1,50 @@
+
+.card{
+    background-color: rgba(0, 0, 0, 0.65);
+    height: 382px;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 300px;
+}
+
+
+.card-image {
+    width: calc(100% - 30px); /* Adjust width to allow equal spacing on left and right */
+    margin: 15px 15px 35px 15px; /* Top, right, bottom, and left margins */
+    display: block; /* Ensures the image doesn't have extra space below it */
+    border-radius: 4px; /* Rounds the corners of the image */
+}
+
+.card-info{
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.brand-name {
+    font-size: 10px;
+    margin-bottom: 0;  /* Removes space below the paragraph */
+}
+
+.car-name {
+    font-size: 20px;
+    margin-top: 0;  /* Removes space above the heading */
+    margin-bottom: 30px;
+}
+.car-details{
+    margin-bottom: 0%;
+    font-size: 15px;
+}
+.car-speed{
+    font-size: 15px;
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+.car-price{
+    margin-top: 0%;
+    font-size: 15px;
+}
+.car-uploaded{
+    font-size: 8px;
+}
