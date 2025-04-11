@@ -1,16 +1,15 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const sequelize = require('./config/database');
 const models = require('./models');
 
-
 // Import aggregated schema and resolvers
-const typeDefs = require('./graphql/schema'); // Imports all combined schemas
-const resolvers = require('./graphql/resolvers'); // Imports all combined resolvers
+const typeDefs = require('./graphql/schema');
+const resolvers = require('./graphql/resolvers');
 
 // Import routes
-// const countryRoutes = require('./routes/countryRoutes');
 const stateRoutes = require('./routes/stateRoutes');
 const designationRoutes = require('./routes/designationRoutes');
 const categoryRoutes = require('./routes/categorgyRoutes');
@@ -24,9 +23,13 @@ const productImageRoutes = require('./routes/productImageRoutes');
 const productVariantRoutes = require('./routes/productVariantRoutes');
 const brandRoutes = require('./routes/brandRoutes');
 
-
-
 const app = express();
+
+// ====== Add CORS middleware at the top ======
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 // Middleware
 app.use(bodyParser.json());
@@ -48,7 +51,6 @@ app.get('/', (req, res) => {
 });
 
 // Using API routes
-// app.use('/api/countries', countryRoutes);
 app.use('/api', stateRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/category', categoryRoutes);
@@ -62,7 +64,6 @@ app.use('/api/product-images', productImageRoutes);
 app.use('/api/product-variants', productVariantRoutes);
 app.use('/api', brandRoutes);
 
-
 const server = new ApolloServer({
   typeDefs,
   resolvers
@@ -74,15 +75,14 @@ async function startServer() {
 
   // Example test route
   app.get('/', (req, res) => {
-      res.send('Server is running!');
+    res.send('Server is running!');
   });
 
-  // Set up the server
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-      console.log(`GraphQL endpoint is http://localhost:${PORT}${server.graphqlPath}`);
+    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`GraphQL endpoint is http://localhost:${PORT}${server.graphqlPath}`);
   });
 }
 
-startServer(); // Execute the async function to start the server
+startServer();

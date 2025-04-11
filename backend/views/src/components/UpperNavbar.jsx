@@ -45,7 +45,7 @@ const UpperNavbar = () => {
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white">HELLO</span>
             <div className="flex space-x-2 text-sm text-white">
-              <a href="/signin" className="hover:underline">SIGN IN | REGISTER</a>
+              <a href="/login" className="hover:underline">SIGN IN | REGISTER</a>
               {/* <span>|</span>
               <a href="#" className="hover:underline">REGISTER</a> */}
             </div>
