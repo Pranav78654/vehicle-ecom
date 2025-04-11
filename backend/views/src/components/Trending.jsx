@@ -29,7 +29,7 @@ const TrendingSection = () => {
   return (
     <div className="trending-section mt-12 px-6 py-8 bg-[#2c2231]/70">
       <div className="flex justify-center mb-6">
-        <h2 className="text-white text-4xl font-bold">Trending{"\t"}<span className="text-yellow-500">Cars</span></h2>
+        <h2 className="text-white text-3xl font-bold">Trending{"\t"}<span className="text-yellow-500">Cars</span></h2>
       </div>
 
       <div className="flex gap-6 overflow-x-auto scrollbar-hide px-6">
