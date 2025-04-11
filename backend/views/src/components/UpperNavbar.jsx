@@ -30,7 +30,7 @@ const UpperNavbar = () => {
               placeholder="Search"
               className="bg-transparent text-gray-300 pl-10 pr-16 py-2 w-full focus:outline-none"
             />
-            <button className="absolute right-0 top-0 bottom-0 bg-[#f59e0b] text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer">
+            <button className="absolute right-0 top-0 bottom-0 bg-[#831843] text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer">
               Search
             </button>
           </div>

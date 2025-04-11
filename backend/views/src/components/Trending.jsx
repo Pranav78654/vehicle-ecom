@@ -27,9 +27,9 @@ const TrendingSection = () => {
   }, []);
 
   return (
-    <div className="trending-section mt-12 px-6 py-8 bg-[rgba(0,0,0,0.65)]">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-white text-2xl font-bold">Trending</h2>
+    <div className="trending-section mt-12 px-6 py-8 bg-[#2c2231]/70">
+      <div className="flex justify-center mb-6">
+        <h2 className="text-white text-4xl font-bold">Trending{"\t"}<span className="text-yellow-500">Cars</span></h2>
       </div>
 
       <div className="flex gap-6 overflow-x-auto scrollbar-hide px-6">
@@ -41,7 +41,8 @@ const TrendingSection = () => {
         year={car.registeredYear}   
         fuel={car.fuel}
         kms={car.kmsDriven}
-        price={car.price}
+        // price={car.price}
+        price={"Buy Now"}
         />
         ))}
       </div>

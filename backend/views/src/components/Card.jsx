@@ -3,7 +3,7 @@ import '../css/card.css'; // Optional
 
 function Card({ image, title, year, fuel, kms, price }) {
   return (
-    <div className="bg-[#2c2231]/70 text-white rounded-lg shadow-lg p-4 w-[350px] min-w-[270px] h-[500px] flex flex-col items-center gap-4">
+    <div className="bg-[#212121] text-white rounded-lg shadow-lg p-4 w-[350px] min-w-[270px] h-[500px] flex flex-col items-center gap-4">
       
       {/* Image */}
       <div className="w-full">
@@ -43,8 +43,8 @@ function Card({ image, title, year, fuel, kms, price }) {
 
       {/* Price */}
       <div className="text-center w-full">
-        <p className="text-2xl font-sans text-black bg-[#f59e0b] py-2 rounded-lg shadow-md">
-          ₹ {price.toLocaleString('en-IN')}
+        <p className="text-2xl font-sans text-white bg-[#831843] py-2 rounded-lg shadow-md">
+           {price.toLocaleString('en-IN')}
         </p>
       </div>
     </div>
