@@ -114,7 +114,6 @@ const LowerNavbar = () => {
                 backgroundColor: 'rgba(0,0,0,0.65)' 
                 }}
               >
-                {/* ✅ Removed scrollbar hiding styles to keep default browser scrollbar */}
                 <div>
                   {menuItems[menu].map((item, idx) => (
                     <li

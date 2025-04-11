@@ -6,7 +6,7 @@ const TrendingSection = () => {
   const [trendingCars, setTrendingCars] = useState([]);
 
   // Manually chosen car IDs
-  const trendingCarIds = [1, 2, 3, 2, 1];
+  const trendingCarIds = [1, 2, 3, 2];
 
   useEffect(() => {
     const fetchTrendingCars = async () => {
@@ -32,17 +32,17 @@ const TrendingSection = () => {
         <h2 className="text-white text-2xl font-bold">Trending</h2>
       </div>
 
-      <div className="flex gap-6 overflow-x-auto scrollbar-hide">
-        {trendingCars.map((car) => (
-          <Card
-            key={car.id}
-            image={car.imageUrl}
-            title={car.carName}         
-            year={car.registeredYear}   
-            fuel={car.fuel}
-            kms={car.kmsDriven}
-            price={car.price}
-          />
+      <div className="flex gap-6 overflow-x-auto scrollbar-hide px-6">
+  {trendingCars.map((car) => (
+      <Card
+        key={car.id}
+        image={car.imageUrl}
+        title={car.carName}         
+        year={car.registeredYear}   
+        fuel={car.fuel}
+        kms={car.kmsDriven}
+        price={car.price}
+        />
         ))}
       </div>
     </div>
