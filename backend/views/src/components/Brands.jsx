@@ -4,7 +4,9 @@ import maserati from "../assets/logo/maserati.png";
 import volkswagon from "../assets/logo/volkswagon.png";
 import bugatti from "../assets/logo/bugatti.png"
 import tesla from "../assets/logo/tesla.png"
+import { useNavigate } from "react-router-dom";
 function Brands() {
+  const navigate = useNavigate();
   return (
     <>
       <div className="text-white bg-[#6b7280]/70 my-10" style={{ backgroundColor: 'rgba(0,0,0,0.80)' }}>
@@ -30,10 +32,10 @@ function Brands() {
             <img alt="Bentley logo" className="mx-auto mb-2 h-16" src={bently} />
             <p>Bentley</p>
           </div>
-          <div className="text-center">
-            <img alt="BMW logo" className="mx-auto mb-2 h-16" src="https://fusioncars.in/wp-content/uploads/2023/06/Group-1000002917.png" />
-            <p>BMW</p>
-          </div>
+          <div className="text-center cursor-pointer" onClick={() => navigate("/search?q=bmw")}>
+  <img alt="BMW logo" className="mx-auto mb-2 h-16" src="https://fusioncars.in/wp-content/uploads/2023/06/Group-1000002917.png" />
+  <p>BMW</p>
+</div>
           <div className="text-center">
             <img alt="DC logo" className="mx-auto mb-2 h-16" src="https://fusioncars.in/wp-content/uploads/2024/07/dc2.png" />
             <p>DC</p>
