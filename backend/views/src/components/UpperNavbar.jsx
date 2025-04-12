@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSearch, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion";
 import logo from "../assets/logo.jpg";
+import Cookies from 'js-cookie';
 
 const UpperNavbar = () => {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    // Check for user name in cookies when component mounts
+    const nameFromCookies = Cookies.get('userName');
+    if (nameFromCookies) {
+      setUserName(nameFromCookies);
+    }
+  }, []);
+
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -50 }} // Start hidden and move down
-      animate={{ opacity: 1, y: 0 }} // Animate to visible
-      transition={{ duration: 0.8, ease: "easeOut" }} // Smooth transition
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="p-4 flex items-center justify-between border-b border-white/30 shadow-md w-full h-20"
       style={{ backgroundColor: "rgba(0,0,0,0.65)" }}
     >
@@ -45,9 +56,11 @@ const UpperNavbar = () => {
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white">HELLO</span>
             <div className="flex space-x-2 text-sm text-white">
-              <a href="/login" className="hover:underline">SIGN IN | REGISTER</a>
-              {/* <span>|</span>
-              <a href="#" className="hover:underline">REGISTER</a> */}
+              {userName ? (
+                <span>{userName}</span>
+              ) : (
+                <a href="/login" className="hover:underline">SIGN IN | REGISTER</a>
+              )}
             </div>
           </div>
         </div>

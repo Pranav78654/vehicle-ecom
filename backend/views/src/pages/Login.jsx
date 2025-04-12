@@ -29,6 +29,7 @@ const LoginPage = () => {
       });
 
       Cookies.set('token', response.data.token, { expires: 7 });
+      Cookies.set('userName', response.data.user.name, { expires: 7 }); // Add this line
       alert('Login Successful ✅');
       navigate('/');
     } catch (error) {
