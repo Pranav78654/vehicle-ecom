@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSearch, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import logo from "../assets/logo.jpg";
+import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -36,6 +38,16 @@ const UpperNavbar = () => {
       setSuggestions([]);
     }
   };
+
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    // Check for user name in cookies when component mounts
+    const nameFromCookies = Cookies.get('userName');
+    if (nameFromCookies) {
+      setUserName(nameFromCookies);
+    }
+  }, []);
 
   return (
     <motion.nav
@@ -98,7 +110,11 @@ const UpperNavbar = () => {
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white">HELLO</span>
             <div className="flex space-x-2 text-sm text-white">
-              <a href="/login" className="hover:underline">SIGN IN | REGISTER</a>
+              {userName ? (
+                <span>{userName}</span>
+              ) : (
+                <a href="/login" className="hover:underline">SIGN IN | REGISTER</a>
+              )}
             </div>
           </div>
         </div>
