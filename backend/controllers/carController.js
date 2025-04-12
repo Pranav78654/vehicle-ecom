@@ -1,7 +1,8 @@
 const db = require("../models");
 const Car = db.Car;
 const Brand = db.Brand;
-
+const CarType = db.CarType; // import CarType at the top
+const { Op } = require("sequelize");
 exports.getAllCars = async (req, res) => {
   try {
     const cars = await Car.findAll({ include: Brand });
@@ -34,5 +35,55 @@ exports.createCar = async (req, res) => {
   } catch (err) {
     console.error("Error creating car:", err);
     res.status(400).json({ error: err.message });
+  }
+};
+exports.searchCars = async (req, res) => {
+  const query = req.query.q?.toLowerCase();
+
+  if (!query || query.trim() === "") {
+    return res.status(400).json({ error: "Search query is required" });
+  }
+
+  try {
+    const cars = await Car.findAll({
+      where: {
+        [Op.or]: [
+          {
+            carName: {
+              [Op.like]: `%${query}%`
+            }
+          }
+        ]
+      },
+      include: [
+        {
+          model: Brand,
+          where: {
+            brandName: {
+              [Op.like]: `%${query}%`
+            }
+          },
+          required: false
+        },
+        {
+          model: CarType,
+          where: {
+            typeName: {
+              [Op.like]: `%${query}%`
+            }
+          },
+          required: false
+        }
+      ]
+    });
+
+    if (cars.length === 0) {
+      return res.status(404).json({ message: "No matching cars found" });
+    }
+
+    res.json({ data: cars });
+  } catch (err) {
+    console.error("Search error:", err);
+    res.status(500).json({ error: err.message });
   }
 };
