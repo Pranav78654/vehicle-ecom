@@ -1,10 +1,11 @@
 import React from 'react';
-import '../css/card.css'; // Optional
+import { useNavigate } from 'react-router-dom';
 
-function Card({ image, title, year, fuel, kms, price }) {
+function Card({ image, title, year, fuel, kms, price, id }) {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-[#212121] text-white rounded-lg shadow-lg p-4 w-[350px] min-w-[270px] h-[500px] flex flex-col items-center gap-4">
-      
       {/* Image */}
       <div className="w-full">
         <img
@@ -41,12 +42,16 @@ function Card({ image, title, year, fuel, kms, price }) {
         </div>
       </div>
 
-      {/* Price */}
+      {/* Price & Button */}
       <div className="text-center w-full">
-        <p className="text-2xl font-sans text-white bg-[#831843] py-2 rounded-lg shadow-md">
-           {price.toLocaleString('en-IN')}
-        </p>
-      </div>
+  <button
+    onClick={() => navigate(`/car/${id}`)}
+    className="text-2xl font-sans text-white bg-[#831843] py-2 px-4 rounded-lg shadow-md mb-2 w-full"
+  >
+    Buy Now
+  </button>
+</div>
+
     </div>
   );
 }

@@ -25,6 +25,7 @@ const productVariantRoutes = require('./routes/productVariantRoutes');
 const brandRoutes = require('./routes/brandRoutes');
 const carRoutes = require('./routes/carRoutes');      // ✅ Handles image upload
 const carTypeRoutes = require('./routes/carTypeRoutes');
+const CarImages = require('./routes/carImagesRoutes');
 
 const app = express();
 
@@ -35,7 +36,11 @@ app.use(cors({
 }));
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:5173', // ✅ Must be exact origin
+  credentials: true                // ✅ Required to allow cookies/auth headers
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -57,7 +62,7 @@ app.use('/api/product-variants', productVariantRoutes);
 app.use('/api/brand', brandRoutes);
 app.use('/api/car', carRoutes);           // ✅ Updated POST: uses multer
 app.use('/api/type', carTypeRoutes);      // ✅ For Car Types
-
+app.use('/api/carimages' , CarImages);
 // ✅ Test route
 app.get('/', (req, res) => {
   res.send('Server is running!');

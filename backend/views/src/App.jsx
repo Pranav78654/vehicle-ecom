@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup"; // ✅ Signup page
 import UpperNavbar from "./components/UpperNavbar";
 import LowerNavbar from "./components/LowerNavbar";
+import CardDetails from "./pages/CardDetails";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import AddCar from "./pages/Addcar"; // ✅ AddCar page
@@ -38,6 +39,7 @@ function MainLayout() {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/addcar" element={<AddCar />} /> {/* ✅ AddCar route */}
+        <Route path="/car/:id" element={<CardDetails />} />
       </Routes>
 
       {!noNavbarFooterRoutes.includes(location.pathname) && <Footer />}

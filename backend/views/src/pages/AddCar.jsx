@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import CarImageUploader from "../components/CarImageUploader";
 const AddCar = () => {
   const [formData, setFormData] = useState({
     carName: '',
@@ -118,6 +118,7 @@ const AddCar = () => {
 
         <button type="submit" className="bg-teal-600 px-6 py-2 rounded hover:bg-teal-700 transition">Add Car</button>
       </form>
+      <CarImageUploader/>
     </div>
   );
 };
