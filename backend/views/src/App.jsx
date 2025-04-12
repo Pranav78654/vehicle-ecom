@@ -8,7 +8,7 @@ import CardDetails from "./pages/CardDetails";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import AddCar from "./pages/Addcar"; // ✅ AddCar page
-
+import SearchPage from "./pages/SearchPage";
 function App() {
   return (
     <Router>
@@ -39,6 +39,7 @@ function MainLayout() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/addcar" element={<AddCar />} />
           <Route path="/car/:id" element={<CardDetails />} />
+          <Route path="/search" element={<SearchPage />} />
         </Routes>
       </main>
 

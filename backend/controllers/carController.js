@@ -48,32 +48,16 @@ exports.searchCars = async (req, res) => {
     const cars = await Car.findAll({
       where: {
         [Op.or]: [
-          {
-            carName: {
-              [Op.like]: `%${query}%`
-            }
-          }
+          { carName: { [Op.like]: `%${query}%` } },
+          { fuel: { [Op.like]: `%${query}%` } },
+          { ownershipStatus: { [Op.like]: `%${query}%` } },
+          { "$Brand.brandName$": { [Op.like]: `%${query}%` } },
+          { "$CarType.typeName$": { [Op.like]: `%${query}%` } }
         ]
       },
       include: [
-        {
-          model: Brand,
-          where: {
-            brandName: {
-              [Op.like]: `%${query}%`
-            }
-          },
-          required: false
-        },
-        {
-          model: CarType,
-          where: {
-            typeName: {
-              [Op.like]: `%${query}%`
-            }
-          },
-          required: false
-        }
+        { model: Brand, attributes: [], required: false },
+        { model: CarType, attributes: [], required: false }
       ]
     });
 
