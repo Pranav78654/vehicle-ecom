@@ -1,75 +1,109 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSearch, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion";
 import logo from "../assets/logo.jpg";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const UpperNavbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-const navigate = useNavigate();
+  const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (searchTerm.trim()) {
+        axios
+          .get(`http://localhost:5000/api/car/suggestions?q=${searchTerm}`)
+          .then(res => setSuggestions(res.data.suggestions || []))
+          .catch(() => setSuggestions([]));
+      } else {
+        setSuggestions([]);
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm]);
+
+  const handleSuggestionClick = (sugg) => {
+    setSuggestions([]);
+    navigate(`/search?q=${encodeURIComponent(sugg)}`);
+  };
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+      setSuggestions([]);
+    }
+  };
+
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -50 }} // Start hidden and move down
-      animate={{ opacity: 1, y: 0 }} // Animate to visible
-      transition={{ duration: 0.8, ease: "easeOut" }} // Smooth transition
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="p-4 flex items-center justify-between border-b border-white/30 shadow-md w-full h-20"
       style={{ backgroundColor: "rgba(0,0,0,0.65)" }}
     >
-      {/* Left Section (Logo) */}
+      {/* Logo */}
       <div className="flex items-center pl-4 w-70" onClick={() => navigate("/")}>
         <img src={logo} alt="Logo" className="w-35" />
       </div>
 
-      {/* Centered Search Bar */}
-      <div className="flex-1 flex justify-center">
+      {/* Search Bar */}
+      <div className="flex-1 flex justify-center relative">
         <div className="w-[90%] max-w-lg">
           <div className="relative flex items-center bg-[#6b7280]/70 rounded-full overflow-hidden">
             <span className="absolute left-3">
               <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
             </span>
             <input
-  type="text"
-  value={searchTerm ?? ""}
-  onChange={(e) => setSearchTerm(e.target.value)}
-  onKeyDown={(e) => {
-    if (e.key === "Enter" && searchTerm.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
-    }
-  }}
-  placeholder="Search"
-  className="bg-transparent text-gray-300 pl-10 pr-16 py-2 w-full focus:outline-none"
-/>
-<button
-  onClick={() => {
-    if (searchTerm.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
-    }
-  }}
-  className="absolute right-0 top-0 bottom-0 bg-[#831843] text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer"
->
-  Search
-</button>
+              type="text"
+              value={searchTerm ?? ""}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              placeholder="Search"
+              className="bg-transparent text-gray-300 pl-10 pr-16 py-2 w-full focus:outline-none"
+            />
+            <button
+              onClick={handleSearch}
+              className="absolute right-0 top-0 bottom-0 bg-[#831843] text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer"
+            >
+              Search
+            </button>
           </div>
+
+          {/* Suggestions dropdown */}
+          {suggestions.length > 0 && (
+            <ul className="absolute z-50 w-110 bg-[#212121] text-white rounded-b-md shadow-md mt-1 max-h-48 overflow-y-auto">
+              {suggestions.map((sugg, index) => (
+                <li
+                key={index}
+                className="px-4 py-2 hover:bg-gray-800 cursor-pointer"
+                onClick={() => handleSuggestionClick(sugg)}
+              >
+                {sugg}
+              </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
-      {/* Right Section (User & Cart) */}
+      {/* Right Side */}
       <div className="flex items-center space-x-4">
-        {/* User Section */}
+        {/* User */}
         <div className="flex items-center space-x-3 pr-5">
           <FontAwesomeIcon icon={faUser} className="text-white" />
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white">HELLO</span>
             <div className="flex space-x-2 text-sm text-white">
               <a href="/login" className="hover:underline">SIGN IN | REGISTER</a>
-              {/* <span>|</span>
-              <a href="#" className="hover:underline">REGISTER</a> */}
             </div>
           </div>
         </div>
 
-        {/* Shopping Cart */}
+        {/* Cart */}
         <div className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded cursor-pointer">
           <FontAwesomeIcon icon={faShoppingCart} className="text-white text-xl" />
           <div className="flex flex-col">
