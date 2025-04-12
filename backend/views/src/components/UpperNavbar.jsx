@@ -17,7 +17,7 @@ const navigate = useNavigate();
       style={{ backgroundColor: "rgba(0,0,0,0.65)" }}
     >
       {/* Left Section (Logo) */}
-      <div className="flex items-center pl-4 w-70">
+      <div className="flex items-center pl-4 w-70" onClick={() => navigate("/")}>
         <img src={logo} alt="Logo" className="w-35" />
       </div>
 
