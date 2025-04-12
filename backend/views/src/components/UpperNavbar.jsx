@@ -1,4 +1,3 @@
-// import React, { useEffect, useState } from "react";
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSearch, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
@@ -42,6 +41,7 @@ const UpperNavbar = () => {
     setSuggestions([]);
     navigate(`/search?q=${encodeURIComponent(sugg)}`);
   };
+
   const handleSearch = () => {
     if (searchTerm.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
@@ -90,12 +90,12 @@ const UpperNavbar = () => {
             <ul className="absolute z-50 w-110 bg-[#212121] text-white rounded-b-md shadow-md mt-1 max-h-48 overflow-y-auto">
               {suggestions.map((sugg, index) => (
                 <li
-                key={index}
-                className="px-4 py-2 hover:bg-gray-800 cursor-pointer"
-                onClick={() => handleSuggestionClick(sugg)}
-              >
-                {sugg}
-              </li>
+                  key={index}
+                  className="px-4 py-2 hover:bg-gray-800 cursor-pointer"
+                  onClick={() => handleSuggestionClick(sugg)}
+                >
+                  {sugg}
+                </li>
               ))}
             </ul>
           )}
@@ -113,7 +113,11 @@ const UpperNavbar = () => {
               {userName ? (
                 <span>{userName}</span>
               ) : (
-                <a href="/login" className="hover:underline">SIGN IN | REGISTER</a>
+                <div className="flex space-x-1">
+                  <a href="/login" className="hover:underline hover:text-gray-300 transition duration-200">Login</a>
+                  <span>|</span>
+                  <a href="/signup" className="hover:underline hover:text-gray-300 transition duration-200">Signup</a>
+                </div>
               )}
             </div>
           </div>

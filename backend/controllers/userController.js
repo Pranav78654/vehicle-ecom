@@ -3,45 +3,6 @@ const bcrypt = require('bcryptjs');
 const { generateToken } = require('../utils/jwt');
 
 // ✅ Signup User
-// exports.signup = async (req, res) => {
-//   try {
-//     const { name, phone, password, role_id } = req.body;
-
-//     if (!name || !phone || !password) {
-//       return res.status(400).json({ error: 'Name, phone, and password are required' });
-//     }
-
-//     const existingUser = await User.findOne({ where: { phone } });
-//     if (existingUser) {
-//       return res.status(400).json({ error: 'Phone number already registered' });
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     const newUser = await User.create({
-//       name,
-//       phone,
-//       password: hashedPassword,
-//       role_id: role_id || 2, // default role_id
-//     });
-
-//     const token = generateToken(newUser);
-
-//     res.status(201).json({
-//       message: 'Signup successful',
-//       user: {
-//         id: newUser.id,
-//         name: newUser.name,
-//         phone: newUser.phone,
-//         role_id: newUser.role_id,
-//       },
-//       token,
-//     });
-//   } catch (error) {
-//     console.error('Signup error:', error);
-//     res.status(500).json({ error: 'Error during signup' });
-//   }
-// };
 exports.signup = async (req, res) => {
   try {
     const { name, phone, password, role_id } = req.body;
@@ -59,7 +20,7 @@ exports.signup = async (req, res) => {
       name,
       phone,
       password, // ✅ pass raw password
-      role_id: role_id || 2,
+      role_id: role_id || 2, // default role_id
     });
 
     const token = generateToken(newUser);
@@ -80,19 +41,16 @@ exports.signup = async (req, res) => {
   }
 };
 
-
 // ✅ Login User (Phone Based)
 exports.login = async (req, res) => {
   try {
     const { phone, password } = req.body;
 
-    // Validate input
     if (!phone || !password) {
       return res.status(400).json({ error: 'Phone and password are required' });
     }
 
     const user = await User.findOne({ where: { phone } });
-
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -127,5 +85,31 @@ exports.getAllUsers = async (req, res) => {
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching users' });
+  }
+};
+
+// ✅ Forgot Password (Phone Based)
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { phone, newPassword } = req.body;
+
+    if (!phone || !newPassword) {
+      return res.status(400).json({ error: 'Phone number and new password are required' });
+    }
+
+    const user = await User.findOne({ where: { phone } });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Forgot Password error:', error);
+    return res.status(500).json({ error: 'Error updating password' });
   }
 };

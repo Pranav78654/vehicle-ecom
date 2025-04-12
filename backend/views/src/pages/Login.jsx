@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import sideImage from '../assets/gta-6.jpg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -8,14 +8,34 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ phone: '', password: '' });
   const [message, setMessage] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const navigate = useNavigate();
+  const passwordInputRef = useRef(null); // For auto-focus to password
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+
+    if (id === 'phone') {
+      const sanitizedValue = value.replace(/\D/g, '');
+
+      if (sanitizedValue.length > 10) {
+        setPhoneError('Phone number cannot exceed 10 digits');
+      } else {
+        setPhoneError('');
+        // Auto move to password field if 10 digits
+        if (sanitizedValue.length === 10 && passwordInputRef.current) {
+          passwordInputRef.current.focus();
+        }
+      }
+
+      setFormData({ ...formData, [id]: sanitizedValue });
+    } else {
+      setFormData({ ...formData, [id]: value });
+    }
   };
 
   const handleLogin = async (e) => {
@@ -29,7 +49,7 @@ const LoginPage = () => {
       });
 
       Cookies.set('token', response.data.token, { expires: 7 });
-      Cookies.set('userName', response.data.user.name, { expires: 7 }); // Add this line
+      Cookies.set('userName', response.data.user.name, { expires: 7 });
       alert('Login Successful ✅');
       navigate('/');
     } catch (error) {
@@ -38,6 +58,8 @@ const LoginPage = () => {
       console.error('Error logging in:', error);
     }
   };
+
+  const isPhoneValid = formData.phone.length === 10 && !phoneError;
 
   return (
     <div className="flex items-center justify-center min-h-screen text-white px-4">
@@ -82,6 +104,7 @@ const LoginPage = () => {
                 required
                 className="w-full p-3 border border-gray-500 rounded bg-transparent text-white focus:outline-none focus:ring-0"
               />
+              {phoneError && <p className="text-red-500 text-xs mt-1">{phoneError}</p>}
             </div>
 
             <div className="mb-2 relative">
@@ -93,6 +116,7 @@ const LoginPage = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                ref={passwordInputRef}
                 className="w-full p-3 border border-gray-500 rounded bg-transparent text-white focus:outline-none focus:ring-0"
               />
               <button
@@ -114,6 +138,7 @@ const LoginPage = () => {
             <button
               type="submit"
               className="w-full bg-[#753B64] text-white p-3 rounded-3xl hover:opacity-90 transition-all duration-200 shadow-lg cursor-pointer"
+              disabled={!isPhoneValid}
             >
               <span className="font-bold">Log In</span>
             </button>
