@@ -88,12 +88,18 @@ exports.getSuggestions = async (req, res) => {
   try {
     const suggestions = await Car.findAll({
       where: {
-        carName: {
-          [Op.like]: `%${query}%`
-        }
+        [Op.or]: [
+          { carName: { [Op.like]: `%${query}%` } },
+          { "$Brand.brandName$": { [Op.like]: `%${query}%` } },
+          { "$CarType.typeName$": { [Op.like]: `%${query}%` } }
+        ]
       },
       attributes: ['carName'],
-      limit: 5
+      limit: 5,
+      include: [
+        { model: Brand, attributes: [], required: false },
+        { model: CarType, attributes: [], required: false }
+      ]
     });
 
     const results = suggestions.map((c) => c.carName);
