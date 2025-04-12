@@ -39,7 +39,15 @@ exports.createCar = async (req, res) => {
 };
 exports.searchCars = async (req, res) => {
   const query = req.query.q?.toLowerCase();
-
+  const orderMap = {
+    "price_asc": ["price", "ASC"],
+    "price_desc": ["price", "DESC"],
+    "year_asc": ["registeredYear", "ASC"],
+    "year_desc": ["registeredYear", "DESC"],
+    "kms_asc": ["kmsDriven", "ASC"],
+    "kms_desc": ["kmsDriven", "DESC"],
+  };
+  const sortOrder = orderMap[req.query.sort] || ["id", "ASC"];
   if (!query || query.trim() === "") {
     return res.status(400).json({ error: "Search query is required" });
   }
@@ -55,6 +63,7 @@ exports.searchCars = async (req, res) => {
           { "$CarType.typeName$": { [Op.like]: `%${query}%` } }
         ]
       },
+      order: [sortOrder],
       include: [
         { model: Brand, attributes: [], required: false },
         { model: CarType, attributes: [], required: false }
