@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSearch, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion"; // Import Framer Motion
 import logo from "../assets/logo.jpg";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const UpperNavbar = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+const navigate = useNavigate();
   return (
     <motion.nav
       initial={{ opacity: 0, y: -50 }} // Start hidden and move down
@@ -26,13 +29,27 @@ const UpperNavbar = () => {
               <FontAwesomeIcon icon={faSearch} className="text-gray-400" />
             </span>
             <input
-              type="text"
-              placeholder="Search"
-              className="bg-transparent text-gray-300 pl-10 pr-16 py-2 w-full focus:outline-none"
-            />
-            <button className="absolute right-0 top-0 bottom-0 bg-[#831843] text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer">
-              Search
-            </button>
+  type="text"
+  value={searchTerm ?? ""}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" && searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+    }
+  }}
+  placeholder="Search"
+  className="bg-transparent text-gray-300 pl-10 pr-16 py-2 w-full focus:outline-none"
+/>
+<button
+  onClick={() => {
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+    }
+  }}
+  className="absolute right-0 top-0 bottom-0 bg-[#831843] text-white px-4 py-2 text-sm rounded-r-full hover:cursor-pointer"
+>
+  Search
+</button>
           </div>
         </div>
       </div>
