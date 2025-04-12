@@ -2,7 +2,8 @@ import React from 'react';
 import bently from "../assets/logo/bently.png";
 import maserati from "../assets/logo/maserati.png";
 import volkswagon from "../assets/logo/volkswagon.png";
-
+import bugatti from "../assets/logo/bugatti.png"
+import tesla from "../assets/logo/tesla.png"
 function Brands() {
   return (
     <>
@@ -117,12 +118,12 @@ function Brands() {
           </div>
 
           <div className="text-center">
-            <img alt="Volvo logo" className="mx-auto mb-2 h-16" src="https://w7.pngwing.com/pngs/221/233/png-transparent-bugatti-veyron-car-bugatti-chiron-bugatti-vision-gran-turismo-bugatti-emblem-label-text-thumbnail.png" />
+            <img alt="Volvo logo" className="mx-auto mb-2 h-16" src={bugatti} />
             <p>Bugatti</p>
           </div>
 
           <div className="text-center">
-            <img alt="Volvo logo" className="mx-auto mb-2 h-16" src="https://icon2.cleanpng.com/20180630/rch/aayk7cz41.webp" />
+            <img alt="Volvo logo" className="mx-auto mb-2 h-16" src={tesla} />
             <p>Tesla</p>
           </div>
         </div>
