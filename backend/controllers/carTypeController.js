@@ -51,3 +51,14 @@ exports.deleteCarType = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+exports.getCarTypeById = async (req, res) => {
+  try {
+    const carType = await CarType.findByPk(req.params.id);
+    if (!carType) {
+      return res.status(404).json({ error: "Car type not found" });
+    }
+    res.json(carType);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

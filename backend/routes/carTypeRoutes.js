@@ -6,5 +6,6 @@ router.get("/", controller.getAllCarTypes);
 router.post("/", controller.createCarType);
 router.put("/:id", controller.updateCarType);
 router.delete("/:id", controller.deleteCarType);
+router.get("/:id", controller.getCarTypeById);
 
 module.exports = router;

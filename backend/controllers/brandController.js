@@ -24,7 +24,7 @@ exports.getBrandById = async (req, res) => {
 
 // Create new brand or bulk create brands
 exports.createBrand = async (req, res) => {
-  try {
+  try { 
     if (Array.isArray(req.body)) {
       // Bulk create
       const brands = await Brand.bulkCreate(req.body);

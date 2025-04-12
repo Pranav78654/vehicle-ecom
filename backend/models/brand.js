@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     brandName: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    iconUrl: {
+      type: DataTypes.STRING,
+      allowNull: true  // Optional: allow null if icon is not mandatory
     }
   }, {
     freezeTableName: true
