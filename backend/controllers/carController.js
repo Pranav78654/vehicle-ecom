@@ -71,3 +71,25 @@ exports.searchCars = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getSuggestions = async (req, res) => {
+  const query = req.query.q?.toLowerCase();
+  if (!query) return res.status(400).json({ error: "Query required" });
+
+  try {
+    const suggestions = await Car.findAll({
+      where: {
+        carName: {
+          [Op.like]: `%${query}%`
+        }
+      },
+      attributes: ['carName'],
+      limit: 5
+    });
+
+    const results = suggestions.map((c) => c.carName);
+    res.json({ suggestions: results });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
