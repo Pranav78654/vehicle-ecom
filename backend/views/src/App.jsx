@@ -23,28 +23,27 @@ function App() {
     </Router>
   );
 }
-
 function MainLayout() {
   const location = useLocation();
-
   const noNavbarFooterRoutes = ["/login", "/signup"];
 
-  return (
-    <>
-      {/* Conditionally render navbar and footer */}
-      {!noNavbarFooterRoutes.includes(location.pathname) && <UpperNavbar />}
-      {/* {!noNavbarFooterRoutes.includes(location.pathname) && <LowerNavbar />} */}
-      
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/addcar" element={<AddCar />} /> {/* ✅ AddCar route */}
-        <Route path="/car/:id" element={<CardDetails />} />
-      </Routes>
+  const showLayout = !noNavbarFooterRoutes.includes(location.pathname);
 
-      {!noNavbarFooterRoutes.includes(location.pathname) && <Footer />}
-    </>
+  return (
+    <div className="min-h-screen flex flex-col">
+      {showLayout && <UpperNavbar />}
+
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/addcar" element={<AddCar />} />
+          <Route path="/car/:id" element={<CardDetails />} />
+        </Routes>
+      </main>
+
+      {showLayout && <Footer />}
+    </div>
   );
 }
-
 export default App;
