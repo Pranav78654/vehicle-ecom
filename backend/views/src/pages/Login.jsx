@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import sideImage from '../assets/gta-6.jpg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,13 +22,15 @@ const LoginPage = () => {
     setMessage('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/user/login', {
-        phone: formData.phone,
-        password: formData.password,
-      });
-
-      Cookies.set('token', response.data.token, { expires: 7 });
-      Cookies.set('userName', response.data.user.name, { expires: 7 }); // Add this line
+      const response = await axios.post(
+        'http://localhost:5000/api/user/login',
+        {
+          phone: formData.phone,
+          password: formData.password,
+        },
+        { withCredentials: true } // 👈 Important for backend cookies
+      );
+      
       alert('Login Successful ✅');
       navigate('/');
     } catch (error) {
@@ -49,20 +50,9 @@ const LoginPage = () => {
 
         {/* Right Form Side */}
         <div className="w-full md:w-1/2 p-8 flex flex-col justify-center relative">
-          {/* Login / Sign up Buttons */}
           <div className="absolute top-4 right-4 text-base font-medium space-x-3 flex">
-            <a
-              href="/login"
-              className="px-4 py-2 rounded-lg bg-[#753B64] text-white transition-all duration-200 backdrop-blur-md shadow-lg hover:opacity-90"
-            >
-              Login
-            </a>
-            <a
-              href="/signup"
-              className="px-4 py-2 rounded-lg bg-[#753B64] text-white transition-all duration-200 backdrop-blur-md shadow-lg hover:opacity-90"
-            >
-              Sign up
-            </a>
+            <a href="/login" className="px-4 py-2 rounded-lg bg-[#753B64] text-white hover:opacity-90">Login</a>
+            <a href="/signup" className="px-4 py-2 rounded-lg bg-[#753B64] text-white hover:opacity-90">Sign up</a>
           </div>
 
           <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
@@ -80,7 +70,7 @@ const LoginPage = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-gray-500 rounded bg-transparent text-white focus:outline-none focus:ring-0"
+                className="w-full p-3 border border-gray-500 rounded bg-transparent text-white"
               />
             </div>
 
@@ -93,7 +83,7 @@ const LoginPage = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-gray-500 rounded bg-transparent text-white focus:outline-none focus:ring-0"
+                className="w-full p-3 border border-gray-500 rounded bg-transparent text-white"
               />
               <button
                 type="button"
@@ -104,7 +94,6 @@ const LoginPage = () => {
               </button>
             </div>
 
-            {/* Forgot Password */}
             <div className="mb-4 text-right">
               <a href="/forgot-password" className="text-sm text-gray-300 hover:underline">
                 Forgot Password?
@@ -117,7 +106,6 @@ const LoginPage = () => {
             >
               <span className="font-bold">Log In</span>
             </button>
-
           </form>
         </div>
       </div>

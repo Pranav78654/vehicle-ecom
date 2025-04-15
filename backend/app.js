@@ -5,7 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const models = require('./models');
-
+const cookieParser = require('cookie-parser');
 // Import aggregated schema and resolvers
 const typeDefs = require('./graphql/schema');
 const resolvers = require('./graphql/resolvers');
@@ -35,7 +35,7 @@ app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
 }));
-
+app.use(cookieParser());
 // Middleware
 const corsOptions = {
   origin: 'http://localhost:5173', // ✅ Must be exact origin

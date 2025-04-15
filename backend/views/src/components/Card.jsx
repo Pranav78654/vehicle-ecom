@@ -46,7 +46,7 @@ function Card({ image, title, year, fuel, kms, price, id }) {
       <div className="text-center w-full mt-auto">
   <button
     onClick={() => navigate(`/car/${id}`)}
-    className="text-2xl font-sans text-white bg-[#831843] py-2 px-4 rounded-lg shadow-md w-full h-[48px]"
+    className="text-2xl font-sans text-white bg-[#831843] py-2 px-4 rounded-lg shadow-md w-full h-[48px] hover:bg-[#6e1236]"
   >
     Buy Now
   </button>
