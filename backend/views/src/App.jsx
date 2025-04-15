@@ -8,9 +8,10 @@ import LowerNavbar from "./components/LowerNavbar";
 import CardDetails from "./pages/CardDetails";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
-import AddCar from "./pages/Addcar";
+import Payment from "./pages/Payment";
+import AddCar from "./pages/Addcar"; // ✅ AddCar page
 import SearchPage from "./pages/SearchPage";
-
+import AddBrandAndType from "./pages/Addbrand";
 function App() {
   return (
     <Router>
@@ -44,6 +45,8 @@ function MainLayout() {
           <Route path="/addcar" element={<AddCar />} />
           <Route path="/car/:id" element={<CardDetails />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/payment" element={<Payment/>} />
+          <Route path="/addbrand" element={<AddBrandAndType/>} />
         </Routes>
       </main>
 

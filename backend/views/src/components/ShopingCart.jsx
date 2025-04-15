@@ -1,33 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Trash2 } from 'lucide-react';
+import axios from 'axios';
 
 const ShopingCart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Latest N-5 Perfume",
-      price: 15.0,
-      quantity: 1,
-      img: "https://stimg.cardekho.com/images/carexteriorimages/630x420/BMW/M5-2025/11821/1719462197562/front-left-side-47.jpg?impolicy=resize&imwidth=480",
-    },
-    {
-      id: 2,
-      name: "Musk Rose Couper",
-      price: 15.0,
-      quantity: 1,
-      img: "https://stimg.cardekho.com/images/carexteriorimages/630x420/BMW/M5-2025/11821/1719462197562/front-left-side-47.jpg?impolicy=resize&imwidth=480",
-    },
-    {
-      id: 3,
-      name: "Dusk Dark Hue",
-      price: 15.0,
-      quantity: 1,
-      img: "https://stimg.cardekho.com/images/carexteriorimages/630x420/BMW/M5-2025/11821/1719462197562/front-left-side-47.jpg?impolicy=resize&imwidth=480",
-    },
-  ]);
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/cart/my-cart', { withCredentials: true })
+      .then(res => {
+        const items = res.data.cart.map(item => ({
+          id: item.Car.id,
+          name: item.Car.carName,
+          price: item.Car.price,
+          quantity: 1, // default for now
+          img: item.Car.imageUrl,
+          brand: item.Car.Brand?.brandName || 'N/A',
+          type: item.Car.CarType?.typeName || 'N/A'
+        }));
+        setCartItems(items);
+      })
+      .catch(err => console.error('Error loading cart:', err));
+  }, []);
 
   const updateQuantity = (id, change) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
+    setCartItems(prev =>
+      prev.map(item =>
         item.id === id
           ? { ...item, quantity: Math.max(1, item.quantity + change) }
           : item
@@ -35,77 +35,154 @@ const ShopingCart = () => {
     );
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.18;
-  const total = subtotal + tax;
+  const removeItem = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/cart/remove/${id}`, {
+        withCredentials: true,
+      });
+      setCartItems(prev => prev.filter(item => item.id !== id));
+    } catch (err) {
+      console.error('Failed to remove item from cart', err);
+    }
+  };
+
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
-    <div className="max-w-6xl mx-auto px-8 py-12">
-      <h2 className="text-3xl font-bold text-center mb-8">Shopping Cart</h2>
-      <div className="bg-white shadow-lg rounded-lg p-8 flex flex-col md:flex-row gap-6">
-        <div className="w-full md:w-2/3">
-          <table className="w-full text-left table-fixed">
-            <thead>
-              <tr className="border-b border-gray-300 text-gray-600 text-lg">
-                <th className="pb-4 w-1/3">Product</th>
-                <th className="pb-4 w-1/6">Price</th>
-                <th className="pb-4 w-1/6">Quantity</th>
-                <th className="pb-4 w-1/6">Total</th>
-              </tr>
-            </thead>
-            <tbody>
+    <div className="min-h-screen bg-black/40 backdrop-blur-md px-6 py-10 text-white">
+      <div className="max-w-7xl mx-auto bg-blue-700/5 backdrop-blur-2xl p-8 rounded-2xl shadow-xl">
+        <h2 className="text-4xl font-bold mb-10">My Cart</h2>
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Cart Items */}
+          <div className="flex-1 bg-transparent p-6 rounded-lg shadow-md">
+            <AnimatePresence>
               {cartItems.map((item) => (
-                <tr key={item.id} className="border-b border-gray-200 text-gray-800 text-lg">
-                  <td className="py-6 flex items-center gap-4">
-                    <img src={item.img} alt={item.name} className="w-20 h-20 rounded-lg" />
-                    <span>{item.name}</span>
-                  </td>
-                  <td className="py-6 font-semibold text-center">${item.price.toFixed(2)}</td>
-                  <td className="py-6 flex items-center justify-center space-x-3">
-                    <button
-                      className="px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200"
-                      onClick={() => updateQuantity(item.id, -1)}
-                    >
-                      -
-                    </button>
-                    <span className="w-10 text-center font-semibold">{item.quantity}</span>
-                    <button
-                      className="px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200"
-                      onClick={() => updateQuantity(item.id, 1)}
-                    >
-                      +
-                    </button>
-                  </td>
-                  <td className="py-6 font-semibold text-center">${(item.price * item.quantity).toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 50 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative flex flex-col lg:flex-row gap-4 pb-6 mb-6 bg-[#212121] rounded-lg p-4"
+                >
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="w-full lg:w-40 h-28 object-cover rounded-lg"
+                  />
+                  <div className="flex flex-col flex-1 justify-between relative">
+                    <div>
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="text-xl font-bold">{item.name}</div>
+                        <div className="flex gap-2 items-center">
+                          <button
+                            onClick={() => updateQuantity(item.id, -1)}
+                            className={`px-3 py-1 rounded-lg transition-colors ${
+                              item.quantity === 1
+                                ? "bg-gray-700 cursor-not-allowed opacity-50"
+                                : "bg-[#831843] hover:bg-[#6e1236] cursor-pointer"
+                            }`}
+                            disabled={item.quantity === 1}
+                          >
+                            -
+                          </button>
+                          <span className="font-semibold">{item.quantity}</span>
+                          <button
+                            onClick={() => updateQuantity(item.id, 1)}
+                            className="px-3 py-1 bg-[#831843] hover:bg-[#6e1236] rounded-lg cursor-pointer"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
 
-        <div className="w-full md:w-1/3 bg-gray-100 p-6 rounded-lg shadow-md">
-          <h3 className="text-2xl font-semibold mb-4">Summary</h3>
-          <div className="text-lg space-y-4">
-            <p className="flex justify-between">
-              <span>Sub Total</span>
-              <span className="font-semibold">${subtotal.toFixed(2)}</span>
-            </p>
-            <p className="flex justify-between">
-              <span>Tax (18%)</span>
-              <span className="font-semibold">${tax.toFixed(2)}</span>
-            </p>
-            <hr className="my-4 border-gray-300" />
-            <p className="flex justify-between text-xl font-bold">
-              <span>Total</span>
-              <span className="text-gray-800">${total.toFixed(2)}</span>
-            </p>
+                      <div className="text-sm text-gray-400 mt-1">
+                        {item.brand}, {item.type}
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center mt-4">
+                      <div className="text-lg font-bold">₹{item.price}</div>
+                    </div>
+
+                    <div className="absolute right-0 bottom-0">
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="text-gray-400 hover:text-gray-200 transition-colors"
+                        aria-label="Remove item"
+                      >
+                        <Trash2 size={24} />
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+
+            {cartItems.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="text-center text-gray-400 mt-20"
+              >
+                <div className="text-3xl font-bold mb-2">Your cart is empty</div>
+                <div className="text-lg italic mb-4">Looks like you haven’t added anything yet</div>
+                <div className="flex justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-24 w-24 text-gray-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={1.2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.4 5.6a1 1 0 001 1.4h12a1 1 0 001-1.4L17 13M7 13h10"
+                    />
+                  </svg>
+                </div>
+              </motion.div>
+            )}
+
+            {cartItems.length > 0 && (
+              <button
+                onClick={() => setCartItems([])}
+                className="w-full mt-4 bg-[#831843] hover:bg-[#6e1236] text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
+              >
+                Clear Cart
+              </button>
+            )}
           </div>
-          <div className="mt-6 flex flex-col space-y-3">
-            <button className="bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold cursor-pointer hover:bg-gray-300">
-              Add Coupon Code
-            </button>
-            <button className="bg-gray-800 text-white py-3 rounded-lg font-semibold cursor-pointer hover:bg-gray-600">
-              Continue to Payment →
+
+          {/* Summary Section */}
+          <div className="w-full lg:w-1/3 h-fit mt-6 lg:mt-6 bg-[#212121] backdrop-blur-md p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-6">Order Summary</h3>
+            <div className="space-y-4 text-lg">
+              <div className="flex justify-between">
+                <span>Price</span>
+                <span>₹{subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Taxes</span>
+                <span className="text-gray-400">Calculated at Checkout</span>
+              </div>
+              <hr className="border-gray-600 my-4" />
+              <div className="flex justify-between font-bold text-xl">
+                <span>Subtotal</span>
+                <span>₹{subtotal.toFixed(2)}</span>
+              </div>
+            </div>
+            <button
+              onClick={() => navigate("/Payment", { state: { cartItems } })}
+              className="w-full mt-8 bg-[#831843] hover:bg-[#6e1236] text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
+            >
+              Check Out
             </button>
           </div>
         </div>

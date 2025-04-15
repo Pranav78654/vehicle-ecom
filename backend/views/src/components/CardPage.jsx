@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
+import AddToCartButton from '../components/AddToCartButton';
 function CardPage() {
   const { id } = useParams();
   const [car, setCar] = useState(null);
@@ -184,9 +184,9 @@ function CardPage() {
               <button className="bg-blue-500 text-white w-full py-2 rounded-lg mb-4">
                 Buy Now
               </button>
-              <button className="bg-gray-700 text-white w-full py-2 rounded-lg mb-4">
-                Add To Cart
-              </button>
+              {car && (
+  <AddToCartButton carId={car.id} />
+)}
 
               <div className="flex items-center justify-between text-gray-400 text-sm mt-4">
                 <span>Manufacturing Year</span>

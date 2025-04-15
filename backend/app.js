@@ -5,7 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const models = require('./models');
-
+const cookieParser = require('cookie-parser');
 // Import aggregated schema and resolvers
 const typeDefs = require('./graphql/schema');
 const resolvers = require('./graphql/resolvers');
@@ -26,7 +26,7 @@ const brandRoutes = require('./routes/brandRoutes');
 const carRoutes = require('./routes/carRoutes');      // ✅ Handles image upload
 const carTypeRoutes = require('./routes/carTypeRoutes');
 const CarImages = require('./routes/carImagesRoutes');
-
+const cartRoutes = require('./routes/cartRoutes');
 const app = express();
 
 // ====== Add CORS middleware at the top ======
@@ -34,7 +34,7 @@ app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
 }));
-
+app.use(cookieParser());
 // Middleware
 const corsOptions = {
   origin: 'http://localhost:5173', // ✅ Must be exact origin
@@ -63,6 +63,7 @@ app.use('/api/brand', brandRoutes);
 app.use('/api/car', carRoutes);           // ✅ Updated POST: uses multer
 app.use('/api/type', carTypeRoutes);      // ✅ For Car Types
 app.use('/api/carimages' , CarImages);
+app.use('/api/cart', cartRoutes);
 // ✅ Test route
 app.get('/', (req, res) => {
   res.send('Server is running!');

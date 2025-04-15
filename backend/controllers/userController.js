@@ -61,6 +61,12 @@ exports.login = async (req, res) => {
     }
 
     const token = generateToken(user);
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
     return res.status(200).json({
       message: 'Login successful',
@@ -85,6 +91,21 @@ exports.getAllUsers = async (req, res) => {
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching users' });
+  }
+};
+
+
+exports.getLoggedInUser = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id, {
+      attributes: ['id', 'name', 'phone', 'role_id']
+    });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    res.json({ name: user.name });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch user info' });
   }
 };
 
