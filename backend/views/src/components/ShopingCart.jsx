@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { Trash2 } from 'lucide-react';
 
 const ShopingCart = () => {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ const ShopingCart = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 50 }}
                   transition={{ duration: 0.3 }}
-                  className="relative flex flex-col lg:flex-row gap-4 border-b border-gray-700 pb-6 mb-6 bg-black/35 rounded-lg p-4"
+                  className="relative flex flex-col lg:flex-row gap-4 pb-6 mb-6 bg-[#212121] rounded-lg p-4"
                 >
                   <img
                     src={item.img}
@@ -90,16 +91,19 @@ const ShopingCart = () => {
                         <div className="flex gap-2 items-center">
                           <button
                             onClick={() => updateQuantity(item.id, -1)}
-                            className="px-3 py-1 bg-[#0f89e0] rounded-lg hover:bg-[#0f45e9] cursor-pointer"
+                            className={`px-3 py-1 rounded-lg transition-colors ${
+                              item.quantity === 1
+                                ? "bg-gray-700 cursor-not-allowed opacity-50"
+                                : "bg-[#831843] hover:bg-[#6e1236] cursor-pointer"
+                            }`}
+                            disabled={item.quantity === 1}
                           >
                             -
                           </button>
-                          <span className="font-semibold">
-                            {item.quantity}
-                          </span>
+                          <span className="font-semibold">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, 1)}
-                            className="px-3 py-1 bg-[#0f89e0] rounded-lg hover:bg-[#0f45e9] cursor-pointer"
+                            className="px-3 py-1 bg-[#831843] hover:bg-[#6e1236] rounded-lg cursor-pointer"
                           >
                             +
                           </button>
@@ -108,7 +112,7 @@ const ShopingCart = () => {
 
                       <div className="flex items-center gap-4 mt-2 text-sm text-gray-300">
                         <div className="border border-white px-2 py-1 rounded text-white font-bold">
-                          12+
+                          18+
                         </div>
                         <div>Mild Violence</div>
                       </div>
@@ -124,9 +128,10 @@ const ShopingCart = () => {
                     <div className="absolute right-0 bottom-0">
                       <button
                         onClick={() => removeItem(item.id)}
-                        className="text-sm text-gray-400 hover:text-gray-200 transition-colors"
+                        className="text-gray-400 hover:text-gray-200 transition-colors"
+                        aria-label="Remove item"
                       >
-                        Remove
+                        <Trash2 size={24} />
                       </button>
                     </div>
                   </div>
@@ -165,7 +170,7 @@ const ShopingCart = () => {
             {cartItems.length > 0 && (
               <button
                 onClick={() => setCartItems([])}
-                className="w-full mt-4 bg-[#0f89e0] hover:bg-[#0f45e9] text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
+                className="w-full mt-4 bg-[#831843] hover:bg-[#6e1236] text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
               >
                 Clear Cart
               </button>
@@ -173,7 +178,7 @@ const ShopingCart = () => {
           </div>
 
           {/* Summary Section */}
-          <div className="w-full lg:w-1/3 h-fit mt-6 lg:mt-6 bg-black/40 backdrop-blur-md p-6 rounded-lg shadow-md">
+          <div className="w-full lg:w-1/3 h-fit mt-6 lg:mt-6 bg-[#212121] backdrop-blur-md p-6 rounded-lg shadow-md">
             <h3 className="text-2xl font-semibold mb-6">Order Summary</h3>
             <div className="space-y-4 text-lg">
               <div className="flex justify-between">
@@ -192,7 +197,7 @@ const ShopingCart = () => {
             </div>
             <button
               onClick={() => navigate("/Payment", { state: { cartItems } })}
-              className="w-full mt-8 bg-[#0f89e0] hover:bg-[#0f45e9] text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
+              className="w-full mt-8 bg-[#831843] hover:bg-[#6e1236] text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
             >
               Check Out
             </button>
