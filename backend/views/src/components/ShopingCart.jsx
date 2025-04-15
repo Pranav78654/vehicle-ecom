@@ -1,65 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios"; // Import axios for making API calls
 
 const ShopingCart = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Split Fiction",
-      price: 2499,
-      quantity: 1,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgXtVkoV1M3dqW7W8tSHLE4_geGz_3QySXWQ&s",
-    },
-    {
-      id: 2,
-      name: "Phantom Rift",
-      price: 1899,
-      quantity: 1,
-      img: "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?cs=srgb&dl=pexels-pixabay-210019.jpg&fm=jpg",
-    },
-    {
-      id: 3,
-      name: "Phantom Rift",
-      price: 1899,
-      quantity: 1,
-      img: "https://stimg.cardekho.com/images/carexteriorimages/630x420/BMW/M5-2025/11821/1719462197562/front-left-side-47.jpg?impolicy=resize&imwidth=480",
-    },
-    {
-      id: 4,
-      name: "Phantom Rift",
-      price: 1899,
-      quantity: 1,
-      img: "https://www.carpro.com/hs-fs/hubfs/2023-Chevrolet-Corvette-Z06-credit-chevrolet.jpeg?width=1020&name=2023-Chevrolet-Corvette-Z06-credit-chevrolet.jpeg"
-    },
-    {
-      id: 5,
-      name: "Phantom Rift",
-      price: 1899,
-      quantity: 1,
-      img: "https://hips.hearstapps.com/hmg-prod/images/2-spectre-unveiled-the-first-fully-electric-rolls-royce-front-3-4-1666037303.jpg?crop=0.845xw:1.00xh;0.0714xw,0&resize=980:*",
-    },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
+  const userId = 1; // Replace this with the logged-in user's ID (from authentication)
 
-  const updateQuantity = (id, change) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
+  // Fetch cart items from the backend
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await axios.get(`/api/cart/${userId}`);
+        setCartItems(response.data); // Populate the cart items from the API response
+      } catch (error) {
+        console.error("Failed to fetch cart items:", error);
+      }
+    };
+
+    fetchCartItems();
+  }, [userId]);
+
+  const updateQuantity = async (id, change) => {
+    try {
+      const updatedCartItem = cartItems.find((item) => item.id === id);
+      const updatedQuantity = Math.max(1, updatedCartItem.quantity + change);
+
+      // Update the quantity on the backend
+      await axios.put(`/api/cart/${userId}/update`, {
+        carId: id,
+        quantity: updatedQuantity,
+      });
+
+      // Update the local state with the new quantity
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === id ? { ...item, quantity: updatedQuantity } : item
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+    }
   };
 
-  const removeItem = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const removeItem = async (id) => {
+    try {
+      // Remove the item from the backend
+      await axios.delete(`/api/cart/${userId}/remove`, {
+        data: { carId: id },
+      });
+
+      // Remove the item from the local state
+      setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to remove item:", error);
+    }
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const addToCart = async (carId, quantity = 1) => {
+    try {
+      // Add the item to the backend cart
+      await axios.post(`/api/cart/${userId}/add`, { carId, quantity });
+
+      // Optionally, update the state immediately after adding
+      setCartItems((prevItems) => [...prevItems, { carId, quantity }]);
+    } catch (error) {
+      console.error("Failed to add item to cart:", error);
+    }
+  };
+
+  const subtotal = Array.isArray(cartItems)
+    ? cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    : 0;
+
 
   return (
     <div className="min-h-screen bg-black/40 backdrop-blur-md px-6 py-10 text-white">
@@ -69,7 +83,7 @@ const ShopingCart = () => {
           {/* Cart Items */}
           <div className="flex-1 bg-transparent p-6 rounded-lg shadow-md">
             <AnimatePresence>
-              {cartItems.map((item) => (
+              {Array.isArray(cartItems) && cartItems.map((item) => (
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, x: -50 }}
@@ -94,9 +108,7 @@ const ShopingCart = () => {
                           >
                             -
                           </button>
-                          <span className="font-semibold">
-                            {item.quantity}
-                          </span>
+                          <span className="font-semibold">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, 1)}
                             className="px-3 py-1 bg-[#0f89e0] rounded-lg hover:bg-[#0f45e9] cursor-pointer"
@@ -133,6 +145,7 @@ const ShopingCart = () => {
                 </motion.div>
               ))}
             </AnimatePresence>
+
 
             {cartItems.length === 0 && (
               <motion.div
