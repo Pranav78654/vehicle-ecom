@@ -4,19 +4,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSearch, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.jpg";
-import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 const UpperNavbar = () => {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    // Check for user name in cookies when component mounts
-    const nameFromCookies = Cookies.get('userName');
-    if (nameFromCookies) {
-      setUserName(nameFromCookies);
-    }
+    // Call the backend to get user info (from cookie)
+    axios.get('http://localhost:5000/api/user/me', { withCredentials: true })
+      .then(res => {
+        setUserName(res.data.name);
+      })
+      .catch(err => {
+        console.error('User not logged in');
+      });
   }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,6 +40,15 @@ const UpperNavbar = () => {
     return () => clearTimeout(delayDebounce);
   }, [searchTerm]);
 
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/user/logout", {}, { withCredentials: true });
+      setUserName('');
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
   const handleSuggestionClick = (sugg) => {
     setSuggestions([]);
     navigate(`/search?q=${encodeURIComponent(sugg)}`);
@@ -111,7 +122,15 @@ const UpperNavbar = () => {
             <span className="text-sm font-semibold text-white">HELLO</span>
             <div className="flex space-x-2 text-sm text-white">
               {userName ? (
+                <span className="flex items-center space-x-2">
                 <span>{userName}</span>
+                <FontAwesomeIcon
+                  icon={faRightFromBracket}
+                  className="text-white cursor-pointer hover:text-red-500"
+                  title="Logout"
+                  onClick={handleLogout}
+                />
+              </span>
               ) : (
                 <a href="/login" className="hover:underline">SIGN IN | REGISTER</a>
               )}
