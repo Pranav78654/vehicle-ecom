@@ -11,4 +11,8 @@ router.post('/logout', (req, res) => {
     res.clearCookie('token'); // or whatever cookie name you set for JWT
     return res.status(200).json({ message: 'Logged out successfully' });
   });
+
+  router.get('/validate', authenticate, (req, res) => {
+    res.json({ isLoggedIn: true, userId: req.user.id });
+  });
 module.exports = router;

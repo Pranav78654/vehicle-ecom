@@ -26,7 +26,7 @@ const brandRoutes = require('./routes/brandRoutes');
 const carRoutes = require('./routes/carRoutes');      // ✅ Handles image upload
 const carTypeRoutes = require('./routes/carTypeRoutes');
 const CarImages = require('./routes/carImagesRoutes');
-
+const cartRoutes = require('./routes/cartRoutes');
 const app = express();
 
 // ====== Add CORS middleware at the top ======
@@ -63,6 +63,7 @@ app.use('/api/brand', brandRoutes);
 app.use('/api/car', carRoutes);           // ✅ Updated POST: uses multer
 app.use('/api/type', carTypeRoutes);      // ✅ For Car Types
 app.use('/api/carimages' , CarImages);
+app.use('/api/cart', cartRoutes);
 // ✅ Test route
 app.get('/', (req, res) => {
   res.send('Server is running!');
