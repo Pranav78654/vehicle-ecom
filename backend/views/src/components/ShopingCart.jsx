@@ -2,61 +2,60 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trash2 } from 'lucide-react';
-import axios from "axios"; // Import axios for making API calls
+import axios from 'axios';
 
 const ShopingCart = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]);
-  const userId = 1; // Replace this with the logged-in user's ID (from authentication)
+  const [cartItems, setCartItems] = useState([
+    {
+      id: 1,
+      name: "Split Fiction",
+      price: 2499,
+      quantity: 1,
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgXtVkoV1M3dqW7W8tSHLE4_geGz_3QySXWQ&s",
+    },
+    {
+      id: 2,
+      name: "Phantom Rift",
+      price: 1899,
+      quantity: 1,
+      img: "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?cs=srgb&dl=pexels-pixabay-210019.jpg&fm=jpg",
+    },
+    {
+      id: 3,
+      name: "Phantom Rift",
+      price: 1899,
+      quantity: 1,
+      img: "https://stimg.cardekho.com/images/carexteriorimages/630x420/BMW/M5-2025/11821/1719462197562/front-left-side-47.jpg?impolicy=resize&imwidth=480",
+    },
+    {
+      id: 4,
+      name: "Phantom Rift",
+      price: 1899,
+      quantity: 1,
+      img: "https://www.carpro.com/hs-fs/hubfs/2023-Chevrolet-Corvette-Z06-credit-chevrolet.jpeg?width=1020&name=2023-Chevrolet-Corvette-Z06-credit-chevrolet.jpeg"
+    },
+    {
+      id: 5,
+      name: "Phantom Rift",
+      price: 1899,
+      quantity: 1,
+      img: "https://hips.hearstapps.com/hmg-prod/images/2-spectre-unveiled-the-first-fully-electric-rolls-royce-front-3-4-1666037303.jpg?crop=0.845xw:1.00xh;0.0714xw,0&resize=980:*",
+    },
+  ]);
 
-  // Fetch cart items from the backend
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get(`/api/cart/${userId}`);
-        setCartItems(response.data); // Populate the cart items from the API response
-      } catch (error) {
-        console.error("Failed to fetch cart items:", error);
-      }
-    };
-
-    fetchCartItems();
-  }, [userId]);
-
-  const updateQuantity = async (id, change) => {
-    try {
-      const updatedCartItem = cartItems.find((item) => item.id === id);
-      const updatedQuantity = Math.max(1, updatedCartItem.quantity + change);
-
-      // Update the quantity on the backend
-      await axios.put(`/api/cart/${userId}/update`, {
-        carId: id,
-        quantity: updatedQuantity,
-      });
-
-      // Update the local state with the new quantity
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === id ? { ...item, quantity: updatedQuantity } : item
-        )
-      );
-    } catch (error) {
-      console.error("Failed to update quantity:", error);
-    }
+  const updateQuantity = (id, change) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          : item
+      )
+    );
   };
 
-  const removeItem = async (id) => {
-    try {
-      // Remove the item from the backend
-      await axios.delete(`/api/cart/${userId}/remove`, {
-        data: { carId: id },
-      });
-
-      // Remove the item from the local state
-      setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
-    } catch (error) {
-      console.error("Failed to remove item:", error);
-    }
+  const removeItem = (id) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
   const addToCart = async (carId, quantity = 1) => {
@@ -124,14 +123,8 @@ const ShopingCart = () => {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4 mt-2 text-sm text-gray-300">
-                        <div className="border border-white px-2 py-1 rounded text-white font-bold">
-                          18+
-                        </div>
-                        <div>Mild Violence</div>
-                      </div>
                       <div className="text-sm text-gray-400 mt-1">
-                        Users Interact, In-Game Purchases
+                        {item.brand}, {item.type}
                       </div>
                     </div>
 
@@ -162,7 +155,7 @@ const ShopingCart = () => {
                 className="text-center text-gray-400 mt-20"
               >
                 <div className="text-3xl font-bold mb-2">Your cart is empty</div>
-                <div className="text-lg italic mb-4">Looks like you haven’t added anything yet 😔</div>
+                <div className="text-lg italic mb-4">Looks like you haven’t added anything yet</div>
                 <div className="flex justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
