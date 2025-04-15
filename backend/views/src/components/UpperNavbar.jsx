@@ -123,8 +123,10 @@ const UpperNavbar = () => {
         <div className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded cursor-pointer">
           <FontAwesomeIcon icon={faShoppingCart} className="text-white text-xl" />
           <div className="flex flex-col">
-            <span className="text-sm text-white">Shopping Cart</span>
-            <span className="text-sm text-white">Rs. 0.00</span>
+            <div className="flex space-x-2 text-sm text-white">
+              <a href="/cart">Shopping Cart</a>
+            </div>
+           
           </div>
         </div>
       </div>
