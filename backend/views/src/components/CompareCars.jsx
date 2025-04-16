@@ -1,35 +1,46 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
+import AsyncSelect from "react-select/async";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CompareCars = () => {
-  const [carOptions, setCarOptions] = useState([]);
   const [selectedCars, setSelectedCars] = useState([null, null]);
   const [carDetails, setCarDetails] = useState([null, null]);
   const [searchParams] = useSearchParams();
   const [resetAnimKey, setResetAnimKey] = useState(0);
 
+  const loadOptions = async (inputValue) => {
+    if (!inputValue) return [];
+    try {
+      const res = await axios.get(`http://localhost:5000/api/car/search?q=${inputValue}`);
+      return res.data.data.map(car => ({ value: car.id, label: car.carName }));
+    } catch (err) {
+      console.error("Search error:", err);
+      return [];
+    }
+  };
+
   useEffect(() => {
-    axios.get("http://localhost:5000/api/car")
-      .then(res => {
-        const options = res.data.map(car => ({
-          value: car.id,
-          label: car.carName
-        }));
-        setCarOptions(options);
+    const car1Id = searchParams.get("car1");
+    const car2Id = searchParams.get("car2");
 
-        const car1Id = searchParams.get("car1");
-        const car2Id = searchParams.get("car2");
+    if (car1Id || car2Id) {
+      const fetchInitialCars = async () => {
+        try {
+          const selected = await Promise.all([
+            car1Id ? axios.get(`http://localhost:5000/api/car/${car1Id}`) : Promise.resolve(null),
+            car2Id ? axios.get(`http://localhost:5000/api/car/${car2Id}`) : Promise.resolve(null)
+          ]);
 
-        const selected = [
-          car1Id ? options.find(opt => opt.value === parseInt(car1Id)) : null,
-          car2Id ? options.find(opt => opt.value === parseInt(car2Id)) : null
-        ];
-        setSelectedCars(selected);
-      })
-      .catch(err => console.error("Error fetching cars:", err));
+          const formatted = selected.map((res, idx) => res ? { value: res.data.id, label: res.data.carName } : null);
+          setSelectedCars(formatted);
+        } catch (err) {
+          console.error("Initial car load error:", err);
+        }
+      };
+      fetchInitialCars();
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -104,8 +115,10 @@ const CompareCars = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Select
-              options={carOptions}
+            <AsyncSelect
+              cacheOptions
+              defaultOptions
+              loadOptions={loadOptions}
               value={car}
               onChange={selected => {
                 const updated = [...selectedCars];
