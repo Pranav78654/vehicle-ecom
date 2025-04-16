@@ -3,16 +3,21 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import AddToCartButton from '../components/AddToCartButton';
+import { useNavigate} from "react-router-dom";
+import { motion } from "framer-motion";
+
 function CardPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [car, setCar] = useState(null);
   const [images, setImages] = useState([]);
-  const [brandIconUrl, setBrandIconUrl] = useState(""); // new state for brand icon
+  const [brandIconUrl, setBrandIconUrl] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [thumbScroll, setThumbScroll] = useState(0);
   const [brandname , setBrandName] = useState("");
   const [cartype , setCarType] = useState("");
   const [carInfo, setCarInfo] = useState(null);
+
   useEffect(() => {
     const fetchCarData = async () => {
       try {
@@ -20,24 +25,20 @@ function CardPage() {
           axios.get(`http://localhost:5000/api/car/${id}`),
           axios.get(`http://localhost:5000/api/carimages/${id}`)
         ]);
-  
+
         const carData = carRes.data;
         setCar(carData);
-  
-        // fetch brand
+
         const brandRes = await axios.get(`http://localhost:5000/api/brand/${carData.brandId}`);
         setBrandIconUrl(brandRes.data.iconUrl);
         setBrandName(brandRes.data.brandName);
-  
-        // fetch car type
+
         const cartyperes = await axios.get(`http://localhost:5000/api/type/${carData.carTypeId}`);
         setCarType(cartyperes.data.typeName);
-  
-        // fetch car info (new)
+
         const carInfoRes = await axios.get(`http://localhost:5000/api/carinfo/${carData.id}`);
         setCarInfo(carInfoRes.data);
-  
-        // images
+
         const imageList = Array.isArray(imgRes.data?.data) ? imgRes.data.data : [];
         const fullImageUrls = imageList.map((img) => `http://localhost:5000${img.imageUrl}`);
         setImages(fullImageUrls);
@@ -47,7 +48,7 @@ function CardPage() {
         setBrandIconUrl("");
       }
     };
-  
+
     fetchCarData();
   }, [id]);
 
@@ -57,10 +58,20 @@ function CardPage() {
   if (!car) return <div className="text-white p-4">Loading...</div>;
 
   return (
-    <div className="container mx-auto p-4 mt-5">
+    <motion.div
+      className="container mx-auto p-4 mt-5"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       <div className="flex flex-col lg:flex-row ml-25 mr-20 bg-[#2c2231]/70">
         {/* Left Panel */}
-        <div className="lg:w-2/3">
+        <motion.div
+          className="lg:w-2/3"
+          initial={{ x: -30, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
           <h1 className="text-4xl font-bold ml-5 mt-4 whitespace-nowrap overflow-visible">
             {car.carName}
           </h1>
@@ -71,26 +82,25 @@ function CardPage() {
             </nav>
           </div>
 
-          {/* Main Image */}
           <div className="mt-4 flex justify-center">
-            <div className="w-full max-w-[800px] h-[450px]">
+            <motion.div className="w-full max-w-[800px] h-[450px]" initial={{ scale: 0.95 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
               <img
                 alt={car.carName}
                 className="rounded-lg w-full h-full object-cover"
                 src={images[activeIndex] || "https://placehold.co/800x450?text=No+Image"}
               />
-            </div>
+            </motion.div>
           </div>
 
-          {/* Carousel Thumbnails */}
           {images.length > 0 && (
-            <div className="flex justify-center mt-4">
+            <motion.div
+              className="flex justify-center mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+            >
               <div className="flex items-center space-x-2">
-                <button
-                  className="bg-gray-800 p-2 rounded-full"
-                  onClick={scrollLeft}
-                  disabled={thumbScroll === 0}
-                >
+                <button className="bg-gray-800 p-2 rounded-full" onClick={scrollLeft} disabled={thumbScroll === 0}>
                   <FaChevronLeft className="text-white" />
                 </button>
 
@@ -98,11 +108,12 @@ function CardPage() {
                   {images.slice(thumbScroll, thumbScroll + 3).map((src, i) => {
                     const realIndex = thumbScroll + i;
                     return (
-                      <div
+                      <motion.div
                         key={realIndex}
-                        className={`w-[80px] h-[60px] rounded-lg overflow-hidden border-2 ${
-                          activeIndex === realIndex ? "border-blue-400" : "border-transparent"
-                        }`}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className={`w-[80px] h-[60px] rounded-lg overflow-hidden border-2 ${activeIndex === realIndex ? "border-blue-400" : "border-transparent"}`}
                       >
                         <img
                           alt={`Thumbnail ${realIndex + 1}`}
@@ -110,34 +121,32 @@ function CardPage() {
                           className="w-full h-full object-cover cursor-pointer"
                           onClick={() => setActiveIndex(realIndex)}
                         />
-                      </div>
+                      </motion.div>
                     );
                   })}
                 </div>
 
-                <button
-                  className="bg-gray-800 p-2 rounded-full"
-                  onClick={scrollRight}
-                  disabled={thumbScroll + 3 >= images.length}
-                >
+                <button className="bg-gray-800 p-2 rounded-full" onClick={scrollRight} disabled={thumbScroll + 3 >= images.length}>
                   <FaChevronRight className="text-white" />
                 </button>
               </div>
-              
-            </div>
+            </motion.div>
           )}
 
-<div className="ml-5">
-        {/* <h2 class="text-gray-400 mb-2">Info</h2> */}
-        <div class="flex space-x-2">
-            <button class="bg-[#212121] text-white py-1 px-3 rounded">{brandname}</button>
-            <button class="bg-[#212121] text-white py-1 px-3 rounded">{cartype}</button>
-        </div>
-    </div>
+          <motion.div className="ml-5 mt-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
+            <div className="flex space-x-2">
+              <button className="bg-[#212121] text-white py-1 px-3 rounded">{brandname}</button>
+              <button className="bg-[#212121] text-white py-1 px-3 rounded">{cartype}</button>
+            </div>
+          </motion.div>
 
-          {/* Car Stats with Icons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-  {/* Kilometers Done */}
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            {/* Kilometers Done */}
   <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
     <img
       alt="Speedometer"
@@ -246,12 +255,17 @@ function CardPage() {
     <p className="text-gray-400">Engine</p>
     <p className="text-white font-bold text-base">{carInfo?.engine || "N/A"}</p>
   </div>
-</div>
 
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Sidebar */}
-        <div className="lg:w-1/4 lg:pl-8 mt-31">
+        <motion.div
+          className="lg:w-1/4 lg:pl-8 mt-31"
+          initial={{ x: 30, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="sticky top-4">
             <div className="bg-[#212121] p-4 rounded-lg">
               <div className="flex justify-center mb-4">
@@ -267,12 +281,19 @@ function CardPage() {
                 ₹{car.price.toLocaleString("en-IN")}
               </div>
 
-              <button className="bg-blue-500 text-white w-full py-2 rounded-lg mb-4">
+              <motion.button whileTap={{ scale: 0.95 }} className="bg-blue-500 text-white w-full py-2 rounded-lg mb-4">
                 Buy Now
-              </button>
-              {car && (
-  <AddToCartButton carId={car.id} />
-)}
+              </motion.button>
+
+              {car && <AddToCartButton carId={car.id} />}
+
+              <motion.button
+                onClick={() => navigate(`/compare?car1=${id}`)}
+                whileTap={{ scale: 0.95 }}
+                className="w-full bg-[#4b5563] hover:bg-[#374151] text-white font-bold py-2 rounded-lg mt-2 transition"
+              >
+                Compare with another car
+              </motion.button>
 
               <div className="flex items-center justify-between text-gray-400 text-sm mt-4">
                 <span>Manufacturing Year</span>
@@ -284,9 +305,9 @@ function CardPage() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
