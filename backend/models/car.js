@@ -40,6 +40,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'carId',
         onDelete: 'CASCADE'
       });
+      Car.hasOne(models.CarInfo, { foreignKey: 'carId' });
+
     };
   
     return Car;

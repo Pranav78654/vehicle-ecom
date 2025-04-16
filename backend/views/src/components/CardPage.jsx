@@ -12,26 +12,32 @@ function CardPage() {
   const [thumbScroll, setThumbScroll] = useState(0);
   const [brandname , setBrandName] = useState("");
   const [cartype , setCarType] = useState("");
+  const [carInfo, setCarInfo] = useState(null);
   useEffect(() => {
     const fetchCarData = async () => {
       try {
-        // First, get car data and images
         const [carRes, imgRes] = await Promise.all([
           axios.get(`http://localhost:5000/api/car/${id}`),
           axios.get(`http://localhost:5000/api/carimages/${id}`)
         ]);
-
+  
         const carData = carRes.data;
         setCar(carData);
-
-        // Get brand icon
+  
+        // fetch brand
         const brandRes = await axios.get(`http://localhost:5000/api/brand/${carData.brandId}`);
         setBrandIconUrl(brandRes.data.iconUrl);
         setBrandName(brandRes.data.brandName);
-        const cartyperes = await axios.get(`http://localhost:5000/api/type/${carData.carTypeId}`); 
+  
+        // fetch car type
+        const cartyperes = await axios.get(`http://localhost:5000/api/type/${carData.carTypeId}`);
         setCarType(cartyperes.data.typeName);
-
-        // Get and process car images
+  
+        // fetch car info (new)
+        const carInfoRes = await axios.get(`http://localhost:5000/api/carinfo/${carData.id}`);
+        setCarInfo(carInfoRes.data);
+  
+        // images
         const imageList = Array.isArray(imgRes.data?.data) ? imgRes.data.data : [];
         const fullImageUrls = imageList.map((img) => `http://localhost:5000${img.imageUrl}`);
         setImages(fullImageUrls);
@@ -41,7 +47,7 @@ function CardPage() {
         setBrandIconUrl("");
       }
     };
-
+  
     fetchCarData();
   }, [id]);
 
@@ -131,37 +137,117 @@ function CardPage() {
 
           {/* Car Stats with Icons */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            
-            <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
-              <img
-                alt="Speedometer"
-                className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
-                src="https://fusioncars.in/wp-content/uploads/2023/04/Speedometer.png"
-              />
-              <p className="text-gray-400">Kilometers Done</p>
-              <p className="text-white font-bold text-base">{car.kmsDriven} km</p>
-            </div>
+  {/* Kilometers Done */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Speedometer"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/04/Speedometer.png"
+    />
+    <p className="text-gray-400">Kilometers Done</p>
+    <p className="text-white font-bold text-base">{car.kmsDriven} km</p>
+  </div>
 
-            <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
-              <img
-                alt="Fuel"
-                className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
-                src="https://fusioncars.in/wp-content/uploads/2023/04/Petrol.png"
-              />
-              <p className="text-gray-400">Fuel</p>
-              <p className="text-white font-bold text-base">{car.fuel}</p>
-            </div>
+  {/* Fuel */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Fuel"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/04/Petrol.png"
+    />
+    <p className="text-gray-400">Fuel</p>
+    <p className="text-white font-bold text-base">{car.fuel}</p>
+  </div>
 
-            <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
-              <img
-                alt="Ownership"
-                className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
-                src="https://fusioncars.in/wp-content/uploads/2023/05/Ownership.png"
-              />
-              <p className="text-gray-400">Ownership Status</p>
-              <p className="text-white font-bold text-base">{car.ownershipStatus}</p>
-            </div>
-          </div>
+  {/* Ownership */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Ownership"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/05/Ownership.png"
+    />
+    <p className="text-gray-400">Ownership Status</p>
+    <p className="text-white font-bold text-base">{car.ownershipStatus}</p>
+  </div>
+
+  {/* Exterior Color */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Exterior Color"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/04/Vector-4.png"
+    />
+    <p className="text-gray-400">Exterior Color</p>
+    <p className="text-white font-bold text-base">{carInfo?.exteriorColor || "N/A"}</p>
+  </div>
+
+  {/* Top Speed */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Top Speed"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/04/Car-speed-test.png"
+    />
+    <p className="text-gray-400">Top Speed</p>
+    <p className="text-white font-bold text-base">{carInfo?.topSpeed || "N/A"}</p>
+  </div>
+
+  {/* Ground Clearance */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Ground Clearance"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/04/Car-speed-test.png"
+    />
+    <p className="text-gray-400">Ground Clearance</p>
+    <p className="text-white font-bold text-base">{carInfo?.groundClearance || "N/A"}</p>
+  </div>
+
+  {/* Boot Space */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Boot Space"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/04/car.png"
+    />
+    <p className="text-gray-400">Boot Space</p>
+    <p className="text-white font-bold text-base">{carInfo?.bootSpace || "N/A"}</p>
+  </div>
+
+  {/* Torque */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Torque"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/04/Car-Power-Charger.png"
+    />
+    <p className="text-gray-400">Torque</p>
+    <p className="text-white font-bold text-base">{carInfo?.torque || "N/A"}</p>
+  </div>
+
+  {/* Power */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Power"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/05/power.png"
+    />
+    <p className="text-gray-400">Power</p>
+    <p className="text-white font-bold text-base">{carInfo?.power || "N/A"}</p>
+  </div>
+
+  {/* Engine */}
+  <div className="bg-[#212121] text-center p-4 rounded-lg text-sm">
+    <img
+      alt="Engine"
+      className="mx-auto mb-2 w-16 h-16 filter invert brightness-200"
+      src="https://fusioncars.in/wp-content/uploads/2023/05/Car-Engine.png"
+    />
+    <p className="text-gray-400">Engine</p>
+    <p className="text-white font-bold text-base">{carInfo?.engine || "N/A"}</p>
+  </div>
+</div>
+
         </div>
 
         {/* Sidebar */}
