@@ -285,7 +285,20 @@ function CardPage() {
                 Buy Now
               </motion.button>
 
-              {car && <AddToCartButton carId={car.id} />}
+              {car && (
+  <AddToCartButton
+    carId={car.id}
+    carData={{
+      id: car.id,
+      name: car.carName,
+      price: car.price,
+      img: images[0] || "https://placehold.co/800x450?text=No+Image",
+      brand: brandname,
+      type: cartype,
+    }}
+  />
+)}
+
 
               <motion.button
                 onClick={() => navigate(`/compare?car1=${id}`)}

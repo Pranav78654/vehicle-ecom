@@ -1,54 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../store/cartSlice';
 
-const AddToCartButton = ({ carId }) => {
-  const [added, setAdded] = useState(false);
-  const [loading, setLoading] = useState(true);
+const AddToCartButton = ({ carId, carData }) => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:5000/api/cart/my-cart', { withCredentials: true })
-      .then((res) => {
-        const isInCart = res.data.cart.some((item) => item.carId === carId);
-        setAdded(isInCart);
-      })
-      .catch(() => setAdded(false))
-      .finally(() => setLoading(false));
-  }, [carId]);
+  const isInCart = cartItems.some((item) => item.id === carId);
 
-  const handleAddToCart = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/api/user/validate', {
-        withCredentials: true,
-      });
-
-      if (!res.data?.isLoggedIn) {
-        alert('Please login first to add items to your cart');
-        return;
-      }
-
-      await axios.post(
-        'http://localhost:5000/api/cart/add',
-        { carId },
-        { withCredentials: true }
-      );
-
-      setAdded(true);
-    } catch (err) {
-      console.error('Add to cart failed:', err);
-      alert('Something went wrong. Please try again.');
+  const handleAddToCart = () => {
+    if (!isInCart && carData) {
+      console.log('Trying to add to cart:', carData); // 🛑 ADD THIS LINE
+      dispatch(addToCart(carData)); // just carData, not { ...carData }
     }
   };
 
   return (
     <button
       onClick={handleAddToCart}
-      disabled={added || loading}
+      disabled={isInCart}
       className={`${
-        added ? 'bg-green-600 cursor-not-allowed' : 'bg-gray-700 hover:bg-gray-600'
+        isInCart ? 'bg-green-600 cursor-not-allowed' : 'bg-gray-700 hover:bg-gray-600'
       } text-white w-full py-2 rounded-lg mb-4`}
     >
-      {loading ? 'Checking...' : added ? 'Added to Cart' : 'Add To Cart'}
+      {isInCart ? 'Added to Cart' : 'Add To Cart'}
     </button>
   );
 };

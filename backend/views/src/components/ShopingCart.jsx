@@ -1,61 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trash2 } from 'lucide-react';
-import axios from 'axios';
+import { useSelector, useDispatch } from "react-redux";
+import { removeFromCart, clearCart, addToCart } from "../store/cartSlice"; // make sure you have clearCart reducer
 
-const ShopingCart = () => {
+const ShoppingCart = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:5000/api/cart/my-cart', { withCredentials: true })
-      .then(res => {
-        const items = res.data.cart.map(item => ({
-          id: item.Car.id,
-          name: item.Car.carName,
-          price: item.Car.price,
-          quantity: 1, // default for now
-          img: item.Car.imageUrl,
-          brand: item.Car.Brand?.brandName || 'N/A',
-          type: item.Car.CarType?.typeName || 'N/A'
-        }));
-        setCartItems(items);
-      })
-      .catch(err => console.error('Error loading cart:', err));
-  }, []);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   const updateQuantity = (id, change) => {
-    setCartItems(prev =>
-      prev.map(item =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
-  };
-
-  const removeItem = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/cart/remove/${id}`, {
-        withCredentials: true,
-      });
-      setCartItems(prev => prev.filter(item => item.id !== id));
-    } catch (err) {
-      console.error('Failed to remove item from cart', err);
+    const item = cartItems.find(item => item.id === id);
+    if (item) {
+      const newQuantity = item.quantity + change;
+      if (newQuantity < 1) {
+        dispatch(removeFromCart(id));
+      } else {
+        dispatch(addToCart({ ...item, quantity: change })); // <== only change, not total quantity
+      }
     }
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
 
   return (
     <div className="min-h-screen bg-black/40 backdrop-blur-md px-6 py-10 text-white">
       <div className="max-w-7xl mx-auto bg-blue-700/5 backdrop-blur-2xl p-8 rounded-2xl shadow-xl">
         <h2 className="text-4xl font-bold mb-10">My Cart</h2>
         <div className="flex flex-col lg:flex-row gap-8">
+          
           {/* Cart Items */}
           <div className="flex-1 bg-transparent p-6 rounded-lg shadow-md">
             <AnimatePresence>
@@ -69,7 +43,7 @@ const ShopingCart = () => {
                   className="relative flex flex-col lg:flex-row gap-4 pb-6 mb-6 bg-[#212121] rounded-lg p-4"
                 >
                   <img
-                    src={item.img}
+                    src={item.img || "https://placehold.co/300x200?text=No+Image"}
                     alt={item.name}
                     className="w-full lg:w-40 h-28 object-cover rounded-lg"
                   />
@@ -100,17 +74,17 @@ const ShopingCart = () => {
                       </div>
 
                       <div className="text-sm text-gray-400 mt-1">
-                        {item.brand}, {item.type}
+                        {item.brand || 'Unknown Brand'}, {item.type || 'Unknown Type'}
                       </div>
                     </div>
 
                     <div className="flex justify-between items-center mt-4">
-                      <div className="text-lg font-bold">₹{item.price}</div>
+                      <div className="text-lg font-bold">₹{(item.price || 0).toLocaleString("en-IN")}</div>
                     </div>
 
                     <div className="absolute right-0 bottom-0">
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => dispatch(removeFromCart(item.id))}
                         className="text-gray-400 hover:text-gray-200 transition-colors"
                         aria-label="Remove item"
                       >
@@ -152,7 +126,7 @@ const ShopingCart = () => {
 
             {cartItems.length > 0 && (
               <button
-                onClick={() => setCartItems([])}
+                onClick={() => dispatch(clearCart())}
                 className="w-full mt-4 bg-[#831843] hover:bg-[#6e1236] text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
               >
                 Clear Cart
@@ -166,7 +140,7 @@ const ShopingCart = () => {
             <div className="space-y-4 text-lg">
               <div className="flex justify-between">
                 <span>Price</span>
-                <span>₹{subtotal.toFixed(2)}</span>
+                <span>₹{subtotal.toLocaleString("en-IN")}</span>
               </div>
               <div className="flex justify-between">
                 <span>Taxes</span>
@@ -175,7 +149,7 @@ const ShopingCart = () => {
               <hr className="border-gray-600 my-4" />
               <div className="flex justify-between font-bold text-xl">
                 <span>Subtotal</span>
-                <span>₹{subtotal.toFixed(2)}</span>
+                <span>₹{subtotal.toLocaleString("en-IN")}</span>
               </div>
             </div>
             <button
@@ -185,10 +159,11 @@ const ShopingCart = () => {
               Check Out
             </button>
           </div>
+
         </div>
       </div>
     </div>
   );
 };
 
-export default ShopingCart;
+export default ShoppingCart;
