@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/upload');
 const { CarImages } = require('../models');
+const cloudinary = require('../config/cloudinary');
 
 router.post('/upload/:carId', upload.array('images', 5), async (req, res) => {
   const { carId } = req.params;
@@ -13,14 +14,43 @@ router.post('/upload/:carId', upload.array('images', 5), async (req, res) => {
   }
 
   try {
-    const imageEntries = files.map(file => ({
-      carId: parseInt(carId),
-      imageUrl: `/uploads/${file.filename}`,
-    }));
+    const imageEntries = [];
+
+    for (const file of files) {
+      const result = await cloudinary.uploader.upload_stream(
+        { folder: 'vehicle-images' }, // optional: put in folder
+        (error, result) => {
+          if (error) throw error;
+          return result;
+        }
+      );
+
+      // Upload using promise + stream
+      const streamUpload = (fileBuffer) => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: 'vehicle-images' },
+            (error, result) => {
+              if (result) resolve(result);
+              else reject(error);
+            }
+          );
+          stream.end(fileBuffer);
+        });
+      };
+
+      const uploadResult = await streamUpload(file.buffer);
+
+      imageEntries.push({
+        carId: parseInt(carId),
+        imageUrl: uploadResult.secure_url, // get URL from Cloudinary
+      });
+    }
 
     await CarImages.bulkCreate(imageEntries);
     res.status(201).json({ message: 'Images uploaded successfully', data: imageEntries });
   } catch (err) {
+    console.error('Upload failed:', err);
     res.status(500).json({ error: 'Upload failed', details: err.message });
   }
 });

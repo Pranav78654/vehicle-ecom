@@ -3,6 +3,8 @@ const Car = db.Car;
 const Brand = db.Brand;
 const CarType = db.CarType; // import CarType at the top
 const { Op } = require("sequelize");
+const cloudinary = require('../config/cloudinary');
+
 exports.getAllCars = async (req, res) => {
   try {
     const cars = await Car.findAll({ include: Brand });
@@ -26,8 +28,23 @@ exports.createCar = async (req, res) => {
   try {
     const carData = req.body;
 
+    // If a file is uploaded, upload it to Cloudinary
     if (req.file) {
-      carData.imageUrl = `https://vehicle-ecom.onrender.com/uploads/${req.file.filename}`;
+      const uploadToCloudinary = (fileBuffer) => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: 'vehicle-images' }, // optional folder
+            (error, result) => {
+              if (result) resolve(result);
+              else reject(error);
+            }
+          );
+          stream.end(fileBuffer);
+        });
+      };
+
+      const result = await uploadToCloudinary(req.file.buffer);
+      carData.imageUrl = result.secure_url; // save Cloudinary URL
     }
 
     const newCar = await Car.create(carData);
