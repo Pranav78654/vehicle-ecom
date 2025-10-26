@@ -8,7 +8,7 @@ import CardDetails from "./pages/CardDetails";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
-import AddCar from "./pages/Addcar"; // ✅ AddCar page
+import AddCar from "./pages/AddCar"; // ✅ AddCar page
 import SearchPage from "./pages/SearchPage";
 import AddBrandAndType from "./pages/Addbrand";
 import Compare from "./pages/Compare";
