@@ -32,7 +32,7 @@ const app = express();
 
 // ====== Add CORS middleware at the top ======
 app.use(cors({
-  origin: 'https://vehicle-ecom.onrender.com',
+  origin: 'https://vehicle-ecom.vercel.app/',
   credentials: true
 }));
 app.use(cookieParser());
