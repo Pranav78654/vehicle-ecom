@@ -38,7 +38,7 @@ app.use(cors({
 app.use(cookieParser());
 // Middleware
 const corsOptions = {
-  origin: 'http://localhost:5173', // ✅ Must be exact origin
+  origin: 'https://vehicle-ecom.vercel.app', // ✅ Must be exact origin
   credentials: true                // ✅ Required to allow cookies/auth headers
 };
 app.use(cors(corsOptions));
