@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CarImageUploader from "../components/CarImageUploader";
-
+import api from '../api/axios'
 const AddCar = () => {
   const [formData, setFormData] = useState({
     carName: '',
@@ -39,11 +39,11 @@ const AddCar = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/brand')
+    api.get('/api/brand')
       .then(res => setBrands(res.data))
       .catch(err => console.error('Brand fetch error:', err));
 
-    axios.get('http://localhost:5000/api/type')
+    api.get('/api/type')
       .then(res => setTypes(res.data))
       .catch(err => console.error('Type fetch error:', err));
   }, []);
@@ -69,13 +69,13 @@ const AddCar = () => {
     if (image) carData.append('image', image);
 
     try {
-      const carRes = await axios.post('http://localhost:5000/api/car', carData, {
+      const carRes = await api.post('/api/car', carData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       const newCarId = carRes.data.id;
 
-      await axios.post('http://localhost:5000/api/carinfo', {
+      await api.post('/api/carinfo', {
         carId: newCarId,
         ...carInfo
       });

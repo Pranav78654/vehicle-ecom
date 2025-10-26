@@ -8,7 +8,7 @@ const CarImageUploader = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/car")
+    fetch("https://vehicle-ecom.onrender.com/api/car")
       .then(res => res.json())
       .then(data => setCars(data))
       .catch(err => console.error("Error fetching cars:", err));
@@ -33,7 +33,7 @@ const CarImageUploader = () => {
     setUploading(true);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/carimages/upload/${carId}`, {
+      const response = await fetch(`https://vehicle-ecom.onrender.com/api/carimages/upload/${carId}`, {
         method: "POST",
         body: formData,
         credentials: "include",

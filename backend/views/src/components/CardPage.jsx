@@ -5,7 +5,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import AddToCartButton from '../components/AddToCartButton';
 import { useNavigate} from "react-router-dom";
 import { motion } from "framer-motion";
-
+import api from '../api/axios';
 function CardPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,21 +22,21 @@ function CardPage() {
     const fetchCarData = async () => {
       try {
         const [carRes, imgRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/car/${id}`),
-          axios.get(`http://localhost:5000/api/carimages/${id}`)
+          api.get(`/api/car/${id}`),
+          api.get(`/api/carimages/${id}`)
         ]);
 
         const carData = carRes.data;
         setCar(carData);
 
-        const brandRes = await axios.get(`http://localhost:5000/api/brand/${carData.brandId}`);
+        const brandRes = await api.get(`/api/brand/${carData.brandId}`);
         setBrandIconUrl(brandRes.data.iconUrl);
         setBrandName(brandRes.data.brandName);
 
-        const cartyperes = await axios.get(`http://localhost:5000/api/type/${carData.carTypeId}`);
+        const cartyperes = await api.get(`/api/type/${carData.carTypeId}`);
         setCarType(cartyperes.data.typeName);
 
-        const carInfoRes = await axios.get(`http://localhost:5000/api/carinfo/${carData.id}`);
+        const carInfoRes = await api.get(`/api/carinfo/${carData.id}`);
         setCarInfo(carInfoRes.data);
 
         const imageList = Array.isArray(imgRes.data?.data) ? imgRes.data.data : [];

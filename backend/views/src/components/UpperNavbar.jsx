@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import logo from "../assets/logo.jpg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from '../api/axios';
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 const UpperNavbar = () => {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
     // Call the backend to get user info (from cookie)
-    axios.get('http://localhost:5000/api/user/me', { withCredentials: true })
+    api.get('/api/user/me', { withCredentials: true })
       .then(res => {
         setUserName(res.data.name);
       })
@@ -28,8 +29,8 @@ const UpperNavbar = () => {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (searchTerm.trim()) {
-        axios
-          .get(`http://localhost:5000/api/car/suggestions?q=${searchTerm}`)
+        api
+          .get(`/api/car/suggestions?q=${searchTerm}`)
           .then(res => setSuggestions(res.data.suggestions || []))
           .catch(() => setSuggestions([]));
       } else {
@@ -42,7 +43,7 @@ const UpperNavbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/user/logout", {}, { withCredentials: true });
+      await api.post("/api/user/logout", {}, { withCredentials: true });
       setUserName('');
       navigate("/");
     } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import api from '../api/axios'
 function AddBrandAndType() {
   const [brandName, setBrandName] = useState('');
   const [iconUrl, setIconUrl] = useState('');
@@ -10,7 +10,7 @@ function AddBrandAndType() {
   const handleAddBrand = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/brand', {
+      const res = await api.post('/api/brand', {
         brandName,
         iconUrl
       });
@@ -26,7 +26,7 @@ function AddBrandAndType() {
   const handleAddType = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/type', {
+      const res = await api.post('/api/type', {
         typeName
       });
       setMessage(`✅ Car type added: ${res.data.typeName || typeName}`);

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import sideImage from '../assets/gta-6.jpg';
 import axios from 'axios';
+import api from '../api/axios'
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
@@ -22,8 +23,8 @@ const LoginPage = () => {
     setMessage('');
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/user/login',
+      const response = await api.post(
+        '/api/user/login',
         {
           phone: formData.phone,
           password: formData.password,

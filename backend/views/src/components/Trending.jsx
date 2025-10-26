@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import axios from 'axios';
-
+import api from '../api/axios';
 const TrendingSection = () => {
   const [trendingCars, setTrendingCars] = useState([]);
 
@@ -13,7 +13,7 @@ const TrendingSection = () => {
       try {
         // Use Promise.all to fetch all cars by ID in parallel
         const carRequests = trendingCarIds.map(id =>
-          axios.get(`http://localhost:5000/api/car/${id}`)
+          api.get(`/api/car/${id}`)
         );
         const responses = await Promise.all(carRequests);
         const cars = responses.map(res => res.data);

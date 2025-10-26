@@ -3,7 +3,7 @@ import sideImage from '../assets/gta-6.jpg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import api from '../api/axios'
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -27,7 +27,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/user/signup', {
+      const response = await api.post('/api/user/signup', {
         name: formData.name,
         phone: formData.phone,
         password: formData.password,

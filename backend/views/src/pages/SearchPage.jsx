@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Card from '../components/Card';
-
+import api from '../api/axios'
 function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
@@ -20,8 +20,8 @@ function SearchPage() {
     setLoading(true);
     setResults([]);
 
-    axios
-      .get(`http://localhost:5000/api/car/search?q=${query}&sort=${sort}`)
+    api
+      .get(`/api/car/search?q=${query}&sort=${sort}`)
       .then((res) => setResults(res.data.data || []))
       .catch((err) => {
         console.error("Search error:", err);

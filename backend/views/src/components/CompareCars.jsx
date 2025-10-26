@@ -3,7 +3,7 @@ import AsyncSelect from "react-select/async";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-
+import api from '../api/axios';
 const CompareCars = () => {
   const [selectedCars, setSelectedCars] = useState([null, null]);
   const [carDetails, setCarDetails] = useState([null, null]);
@@ -13,7 +13,7 @@ const CompareCars = () => {
   const loadOptions = async (inputValue) => {
     if (!inputValue) return [];
     try {
-      const res = await axios.get(`http://localhost:5000/api/car/search?q=${inputValue}`);
+      const res = await api.get(`/api/car/search?q=${inputValue}`);
       return res.data.data.map(car => ({ value: car.id, label: car.carName }));
     } catch (err) {
       console.error("Search error:", err);
@@ -29,8 +29,8 @@ const CompareCars = () => {
       const fetchInitialCars = async () => {
         try {
           const selected = await Promise.all([
-            car1Id ? axios.get(`http://localhost:5000/api/car/${car1Id}`) : Promise.resolve(null),
-            car2Id ? axios.get(`http://localhost:5000/api/car/${car2Id}`) : Promise.resolve(null)
+            car1Id ? api.get(`/api/car/${car1Id}`) : Promise.resolve(null),
+            car2Id ? api.get(`/api/car/${car2Id}`) : Promise.resolve(null)
           ]);
 
           const formatted = selected.map((res, idx) => res ? { value: res.data.id, label: res.data.carName } : null);
@@ -46,13 +46,13 @@ const CompareCars = () => {
   useEffect(() => {
     selectedCars.forEach((car, idx) => {
       if (car) {
-        axios.get(`http://localhost:5000/api/car/${car.value}`)
+        api.get(`/api/car/${car.value}`)
           .then(async carRes => {
             const carData = carRes.data;
-            const brandRes = await axios.get(`http://localhost:5000/api/brand/${carData.brandId}`);
+            const brandRes = await api.get(`/api/brand/${carData.brandId}`);
             const brandIcon = brandRes.data.iconUrl;
 
-            axios.get(`http://localhost:5000/api/carinfo/${car.value}`)
+            api.get(`/api/carinfo/${car.value}`)
               .then(infoRes => {
                 setCarDetails(prev => {
                   const copy = [...prev];
