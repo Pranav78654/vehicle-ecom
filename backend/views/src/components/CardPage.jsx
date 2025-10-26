@@ -18,39 +18,40 @@ function CardPage() {
   const [cartype , setCarType] = useState("");
   const [carInfo, setCarInfo] = useState(null);
 
-  useEffect(() => {
-    const fetchCarData = async () => {
-      try {
-        const [carRes, imgRes] = await Promise.all([
-          api.get(`/api/car/${id}`),
-          api.get(`/api/carimages/${id}`)
-        ]);
+ useEffect(() => {
+  const fetchCarData = async () => {
+    try {
+      const [carRes, imgRes] = await Promise.all([
+        api.get(`/api/car/${id}`),
+        api.get(`/api/carimages/${id}`)
+      ]);
 
-        const carData = carRes.data;
-        setCar(carData);
+      const carData = carRes.data;
+      setCar(carData);
 
-        const brandRes = await api.get(`/api/brand/${carData.brandId}`);
-        setBrandIconUrl(brandRes.data.iconUrl);
-        setBrandName(brandRes.data.brandName);
+      const brandRes = await api.get(`/api/brand/${carData.brandId}`);
+      setBrandIconUrl(brandRes.data.iconUrl);
+      setBrandName(brandRes.data.brandName);
 
-        const cartyperes = await api.get(`/api/type/${carData.carTypeId}`);
-        setCarType(cartyperes.data.typeName);
+      const cartyperes = await api.get(`/api/type/${carData.carTypeId}`);
+      setCarType(cartyperes.data.typeName);
 
-        const carInfoRes = await api.get(`/api/carinfo/${carData.id}`);
-        setCarInfo(carInfoRes.data);
+      const carInfoRes = await api.get(`/api/carinfo/${carData.id}`);
+      setCarInfo(carInfoRes.data);
 
-        const imageList = Array.isArray(imgRes.data?.data) ? imgRes.data.data : [];
-        const fullImageUrls = imageList.map((img) => `http://localhost:5000${img.imageUrl}`);
-        setImages(fullImageUrls);
-      } catch (err) {
-        console.error("Error fetching car or brand data:", err);
-        setImages([]);
-        setBrandIconUrl("");
-      }
-    };
+      const imageList = Array.isArray(imgRes.data?.data) ? imgRes.data.data : [];
+      const fullImageUrls = imageList.map((img) => img.imageUrl); // Already full Cloudinary URL
+      setImages(fullImageUrls);
+    } catch (err) {
+      console.error("Error fetching car or brand data:", err);
+      setImages([]);
+      setBrandIconUrl("");
+    }
+  };
 
-    fetchCarData();
-  }, [id]);
+  fetchCarData();
+}, [id]);
+
 
   const scrollLeft = () => setThumbScroll((prev) => Math.max(prev - 1, 0));
   const scrollRight = () => setThumbScroll((prev) => Math.min(prev + 1, images.length - 3));

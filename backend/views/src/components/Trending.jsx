@@ -6,7 +6,7 @@ const TrendingSection = () => {
   const [trendingCars, setTrendingCars] = useState([]);
 
   // Manually chosen car IDs
-  const trendingCarIds = [2, 3, 4, 5];
+  const trendingCarIds = [6, 3, 4, 5];
 
   useEffect(() => {
     const fetchTrendingCars = async () => {
