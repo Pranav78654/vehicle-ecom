@@ -32,7 +32,7 @@ const app = express();
 
 // ====== Add CORS middleware at the top ======
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://vehicle-ecom.onrender.com',
   credentials: true
 }));
 app.use(cookieParser());
