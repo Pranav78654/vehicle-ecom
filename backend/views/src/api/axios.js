@@ -7,7 +7,8 @@ const instance = axios.create({
   baseURL: API,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
+  withCredentials: true, // ✅ allows sending cookies to backend
 });
 
 export default instance;
