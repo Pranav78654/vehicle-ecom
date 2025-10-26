@@ -27,7 +27,7 @@ exports.createCar = async (req, res) => {
     const carData = req.body;
 
     if (req.file) {
-      carData.imageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+      carData.imageUrl = `https://vehicle-ecom.onrender.com/uploads/${req.file.filename}`;
     }
 
     const newCar = await Car.create(carData);
